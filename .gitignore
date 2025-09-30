@@ -4,6 +4,10 @@
 ## Mac Stuff
 .DS_Store
 
+## Builds
+*.xcframework/
+*.xcframework.zip
+
 ## User settings
 xcuserdata/
 

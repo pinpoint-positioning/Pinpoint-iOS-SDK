@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import EasylocateSDK
+import PinpointSDK
 import SwiftUI
 import CoreBluetooth
 
@@ -15,6 +15,7 @@ class PositionProvider: ObservableObject {
     private var connectedTracelet: CBPeripheral?
     @Published var localPostion: LocalPosition?
     @Published var connectionState: ConnectionState = .DISCONNECTED
+    
     
     
     init() {
@@ -47,11 +48,10 @@ class PositionProvider: ObservableObject {
         }
         
         guard let tracelet = devices.first else { return false }
+        // Store connected Tracelet
+        connectedTracelet = tracelet.peripheral
         
         let success = try await connectToTraceletAndStartPositioning(tracelet)
-        if success {
-            connectedTracelet = tracelet.peripheral
-        }
         return success
     }
 

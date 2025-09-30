@@ -156,38 +156,38 @@ struct ContentView: View {
                     .scaleEffect(isConnected() ? 1.0 : 1.0)
                     .disabled(isConnecting)
                     
-                  
 
                     
                     // Show Me Button
-                    Button(action: {
-                        Task {
-                          await showMe()
+                    if isConnected() {
+                        Button(action: {
+                            Task {
+                                await showMe()
+                            }
+                            }) {
+                            HStack {
+                                Image(systemName: "eye.circle.fill")
+                                    .font(.system(size: 20, weight: .semibold))
+                                
+                                Text("Show Me")
+                                    .font(.headline)
+                                    .fontWeight(.semibold)
+                            }
+                            .foregroundColor(.primary)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 56)
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(.ultraThinMaterial)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .stroke(.tertiary, lineWidth: 1)
+                                    )
+                            )
+                            .shadow(color: .black.opacity(0.05), radius: 5, x: 0, y: 2)
                         }
-                        print("ShowMe button tapped")
-                    }) {
-                        HStack {
-                            Image(systemName: "eye.circle.fill")
-                                .font(.system(size: 20, weight: .semibold))
-                            
-                            Text("Show Me")
-                                .font(.headline)
-                                .fontWeight(.semibold)
-                        }
-                        .foregroundColor(.primary)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 56)
-                        .background(
-                            RoundedRectangle(cornerRadius: 16)
-                                .fill(.ultraThinMaterial)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 16)
-                                        .stroke(.tertiary, lineWidth: 1)
-                                )
-                        )
-                        .shadow(color: .black.opacity(0.05), radius: 5, x: 0, y: 2)
+                        .buttonStyle(ScaleButtonStyle())
                     }
-                    .buttonStyle(ScaleButtonStyle())
                     
                     FootnoteView("Hold a TRACElet close to your phone, when tapping on Connect", icon: "info.circle")
                 }
