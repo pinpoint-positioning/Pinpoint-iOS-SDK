@@ -6,7 +6,7 @@ This repo contains a sample app that demonstrates the usage of the `Pinpoint iOS
 
 ## Installation
 
-To integrate the `easylocate-ios-sdk` add the repo as a swift package dependency to you project.
+To integrate the `Pinpoint iOS SDK` add the repo as a swift package dependency to you project using the Swift Package Manager
 
 ### Versioning
 This package highly depends in the Pinpoint Hardware you are using.
@@ -36,7 +36,7 @@ The `Easylocate` class provides various functions to interact with nearby tracel
 Access the singleton instance of the `API` class:
 
 ```swift
-let api = EasylocateAPI.shared
+let api = PinpointApi.shared
 ```
 
 ### Flow-logic to receive postion data
@@ -149,14 +149,12 @@ Set the communication channel (5 or 9):
 
 ```swift
 let success = await api.setChannel(channel: 9, preamble: 9)
-print("Channel set success: \(success)")
 ```
 
 Set the SiteID filter for the tracelet (This filters the tracelet for a specific SiteID - Don`t use if not neccessary):
 
 ```swift
 let success = await api.setSiteID(siteID: 0x0001)
-print("SiteID set success: \(success)")
 ```
 
 Set the positioning interval:
