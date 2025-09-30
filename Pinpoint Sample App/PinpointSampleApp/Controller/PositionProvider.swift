@@ -12,7 +12,7 @@ import CoreBluetooth
 import CoreLocation
 
 class PositionProvider: ObservableObject {
-    let api = EasylocateAPI.shared
+    let api = PinpointApi.shared
     private var connectedTracelet: CBPeripheral?
     @Published var connectionState: ConnectionState = .DISCONNECTED
     

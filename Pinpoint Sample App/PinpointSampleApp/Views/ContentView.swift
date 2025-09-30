@@ -45,7 +45,7 @@ struct ContentView: View {
         if let lat = positionProvider.worldPosition?.latitude {
             return "\(lat)"
         }
-        return ""
+        return "n/a"
     }
     private var wgs84Lon: String {
         if let lon = positionProvider.worldPosition?.longitude {
