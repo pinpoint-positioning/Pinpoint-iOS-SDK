@@ -1,8 +1,7 @@
-# Pinpoint easylocate-ios-sdk
+# Pinpoint iOS SDK
 
 ## Demo App
-We provided a a demo app to show the integration of the iOS SDK
-https://github.com/pinpoint-positioning/public-sdk-demo-app
+This repo contains a sample app that demonstrates the usage of the `Pinpoint iOS SDK`
 
 
 ## Installation
@@ -10,28 +9,27 @@ https://github.com/pinpoint-positioning/public-sdk-demo-app
 To integrate the `easylocate-ios-sdk` add the repo as a swift package dependency to you project.
 
 ### Versioning
-This package highly depends in the Pinpoint Hardware you are using. For each new firmware release, `easylocate-ios-sdk` also
-will be tagged accordingly.
+This package highly depends in the Pinpoint Hardware you are using.
 
-Make sure to use the corresponing tag (e.g. 12.1.0) when adding this package to your project,
+Make sure to use the corresponding tag (e.g. 12.1.0) when adding this package to your project,
 
 
 
 ## Usage
 
-To use the `easylocate-ios-sdk`  in your iOS project, follow the steps below..
+To use the `Pinpoint iOS SDK`  in your iOS project, follow the steps below..
 
 ### Importing the Module
 
 First, import the module at the top of your Swift file:
 
 ```swift
-import easylocate
+import PinpointSDK
 ```
 
 ### API Class Overview
 
-The `API` class provides various functions to interact with nearby tracelets using Bluetooth. Below are the main functions available for public use:
+The `Easylocate` class provides various functions to interact with nearby tracelets using Bluetooth. Below are the main functions available for public use:
 
 ### Singleton Instance
 
@@ -54,7 +52,7 @@ let api = EasylocateAPI.shared
 Start scanning for nearby tracelets with a specified timeout. The completion handler returns a list of discovered tracelets.
 
 ```swift
-api.scan(timeout: 10.0) { tracelets in
+api.scan(timeout: 3.0) { tracelets in
     print("Discovered tracelets: \(tracelets)")
 }
 ```
@@ -67,21 +65,8 @@ api.stopScan()
 
 ### Connecting to a Tracelet and start positioning (2+3)
 
-Connect to a discovered tracelet asynchronously. The function returns a `Bool` indicating success. (2)
 
-```swift
-let discoveredTracelets = [...] // This is obtained from the scan() completion handler
-if let tracelet = discoveredTracelets.first {
-    do {
-        let success = try await api.connect(device: tracelet)
-        print("Connection success: \(success)")
-    } catch {
-        print("Connection failed with error: \(error)")
-    }
-}
-```
-
-Preferably use this function, to connect and directly start positioning mode (2+3):
+Preferably use this function, to connect and directly start positioning mode:
 
 ```swift
 if let tracelet = discoveredTracelets.first {
@@ -93,7 +78,8 @@ if let tracelet = discoveredTracelets.first {
     }
 }
 ```
-
+*Hint:* The function `connectAndStartPositioning(device: tracelet)` will set up the tracelet with settings, broadcasted by the SATlets.
+This will only work, if you are in a location with a set up Pinpoint UWB network!
 
 
 ### Listen to local position stream (4)

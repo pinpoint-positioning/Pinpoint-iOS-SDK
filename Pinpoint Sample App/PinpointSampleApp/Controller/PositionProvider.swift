@@ -9,14 +9,24 @@ import Foundation
 import PinpointSDK
 import SwiftUI
 import CoreBluetooth
+import CoreLocation
 
 class PositionProvider: ObservableObject {
     let api = EasylocateAPI.shared
     private var connectedTracelet: CBPeripheral?
-    @Published var localPostion: LocalPosition?
     @Published var connectionState: ConnectionState = .DISCONNECTED
     
+    // Published Positions
+    @Published var localPosition: LocalPosition?
+    @Published var worldPosition: CLLocationCoordinate2D?
     
+    // Example WGS84 references
+    // Used for converting local coordinates to World Coordinates (WGS84)
+    var REF_LAT:Double?
+    var REF_LON:Double?
+    var REF_AZI:Double?
+    
+ 
     
     init() {
         setUpStateListener()
@@ -38,6 +48,8 @@ class PositionProvider: ObservableObject {
     }
     
     func connectTraceletAndStart() async throws -> Bool {
+        guard isBleReady() else { return false}
+        
         let devices = try await withCheckedThrowingContinuation { continuation in
             var hasResumed = false
             api.scan(timeout: 3.0) { devices in
@@ -62,6 +74,7 @@ class PositionProvider: ObservableObject {
     }
     
     
+    // Lights up the LED on connected TRACElets for identification
     func showMe() async -> Bool {
         if let tracelet = connectedTracelet {
             let success = await api.showMe(tracelet: tracelet)
@@ -78,12 +91,31 @@ class PositionProvider: ObservableObject {
     }
     
     private func handleNewPosition(_ position: LocalPosition?) {
-        localPostion = position
+        localPosition = position
+        generateWorldPosition()
     }
     
     
     func getConnectionState() -> ConnectionState {
         return api.connectionState
     }
-  
+    
+    func isBleReady() -> Bool {
+        return api.bleState == .BT_OK
+    }
+
+    
+
+    func generateWorldPosition() {
+        if let localPos = self.localPosition,
+           let lat = REF_LAT,
+           let lon = REF_LON,
+           let azi = REF_AZI {
+            
+            let uwbPosition = CGPoint(x: localPos.x, y: localPos.y)
+            self.worldPosition = WGS84Position(refLatitude: lat, refLongitude: lon, refAzimuth: azi)
+                .getWGS84Position(uwbPosition: uwbPosition)
+        }
+    }
+ 
 }

@@ -11,32 +11,49 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var positionProvider = PositionProvider()
     @State var isConnecting = false
+    @State var showReferenceSheet = false
+
     
-    // Positions to display
+    // Local Positions to display
     private var localX: String {
-        if let x = positionProvider.localPostion?.x {
+        if let x = positionProvider.localPosition?.x {
             return "\(x)"
         }
         return "n/a"
     }
     private var localY: String {
-        if let y = positionProvider.localPostion?.y {
+        if let y = positionProvider.localPosition?.y {
             return "\(y)"
         }
         return "n/a"
     }
     private var localZ: String {
-        if let z = positionProvider.localPostion?.z {
+        if let z = positionProvider.localPosition?.z {
             return "\(z)"
         }
         return "n/a"
     }
     private var localAcc: String {
-        if let acc = positionProvider.localPostion?.accuracy {
+        if let acc = positionProvider.localPosition?.accuracy {
             return String(format: "%.2f", acc)
         }
         return "n/a"
     }
+    
+    // World Coordinates to display
+    private var wgs84Lat: String {
+        if let lat = positionProvider.worldPosition?.latitude {
+            return "\(lat)"
+        }
+        return ""
+    }
+    private var wgs84Lon: String {
+        if let lon = positionProvider.worldPosition?.longitude {
+            return "\(lon)"
+        }
+        return "n/a"
+    }
+    
     
     
     var body: some View {
@@ -69,6 +86,7 @@ struct ContentView: View {
                 // Coordinates Card
                 VStack(spacing: 16) {
                     HStack {
+                        Image(systemName: "mappin.and.ellipse")
                         Text("LocalPosition")
                             .font(.title3)
                             .fontWeight(.semibold)
@@ -115,6 +133,66 @@ struct ContentView: View {
                         .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
                 )
                 
+                // WGS84 Coordinates Card
+                VStack(spacing: 16) {
+                    HStack {
+                        Image(systemName: "globe")
+                        Text("WGS84 Coordinates")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.primary)
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            showReferenceSheet = true
+                        }) {
+                            Image(systemName: "gearshape.fill")
+                                .foregroundColor(.blue)
+                                .font(.system(size: 16, weight: .medium))
+                        }
+                    }
+                    
+                    // Coordinate Values
+                    VStack(spacing: 12) {
+                        HStack {
+                            Text("Latitude:")
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                                .foregroundColor(.secondary)
+                                .frame(width: 80, alignment: .leading)
+                            
+                            Text(wgs84Lat)
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.primary)
+                            
+                            Spacer()
+                        }
+                        
+                        HStack {
+                            Text("Longitude:")
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                                .foregroundColor(.secondary)
+                                .frame(width: 80, alignment: .leading)
+                            
+                            Text(wgs84Lon)
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.primary)
+                            
+                            Spacer()
+                        }
+                    }
+                }
+                .padding(24)
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(.ultraThinMaterial)
+                        .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
+                )
+                
                 // Buttons Section
                 VStack(spacing: 16) {
                     // Connect/Disconnect Button
@@ -131,10 +209,10 @@ struct ContentView: View {
                             if isConnecting {
                                 ProgressView()
                             } else {
-
-                            Text(isConnected() ? "Disconnect" : "Connect")
-                                .font(.headline)
-                                .fontWeight(.semibold)
+                                
+                                Text(isConnected() ? "Disconnect" : "Connect")
+                                    .font(.headline)
+                                    .fontWeight(.semibold)
                             }
                         }
                         .foregroundColor(.white)
@@ -143,9 +221,9 @@ struct ContentView: View {
                         .background(
                             LinearGradient(
                                 gradient: Gradient(colors: isConnected() ?
-                                    [Color.red.opacity(0.8), Color.red] :
-                                    [Color.blue.opacity(0.8), Color.blue]
-                                ),
+                                                   [Color.red.opacity(0.8), Color.red] :
+                                                    [Color.blue.opacity(0.8), Color.blue]
+                                                  ),
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )
@@ -156,7 +234,7 @@ struct ContentView: View {
                     .scaleEffect(isConnected() ? 1.0 : 1.0)
                     .disabled(isConnecting)
                     
-
+                    
                     
                     // Show Me Button
                     if isConnected() {
@@ -164,7 +242,7 @@ struct ContentView: View {
                             Task {
                                 await showMe()
                             }
-                            }) {
+                        }) {
                             HStack {
                                 Image(systemName: "eye.circle.fill")
                                     .font(.system(size: 20, weight: .semibold))
@@ -197,6 +275,11 @@ struct ContentView: View {
             .padding(.horizontal, 24)
             
         }
+        .sheet(isPresented: $showReferenceSheet) {
+            ReferenceCoordinateSheet(
+                onSave: setWorldCoordinateReference
+            )
+        }
         
     }
     
@@ -226,6 +309,16 @@ struct ContentView: View {
     func isConnected () -> Bool {
         return positionProvider.connectionState == .CONNECTED
     }
+    
+    func setWorldCoordinateReference(lat: Double, lon: Double, azi: Double) {
+        // Set World Coordinate Reference
+        positionProvider.REF_AZI = azi
+        positionProvider.REF_LAT = lat
+        positionProvider.REF_LON = lon
+        
+        showReferenceSheet = false
+    }
+    
 }
 
 
