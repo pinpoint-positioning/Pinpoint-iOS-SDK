@@ -271,6 +271,7 @@ struct ContentView: View {
                 }
                 
                 Spacer()
+                VersionLabel()
             }
             .padding(.horizontal, 24)
             
