@@ -27,10 +27,8 @@ playground.xcworkspace
 # Packages/
 Package.pins
 Package.resolved
-
-## Xcode project/workspace
+.swiftpm/
 *.xcworkspace
-*.xcodeproj
 
 ## Build folders
 DerivedData/
