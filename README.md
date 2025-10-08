@@ -13,6 +13,7 @@ The Pinpoint iOS SDK is a Swift package for Ultra-Wideband (UWB) positioning wit
 * Check if Bluetooth is enabled on the device
 * Convert local positions to world corrdinates (WGS84)
 
+---
 
 ## Installation
 
@@ -22,7 +23,6 @@ To integrate the `Pinpoint iOS SDK` add the repo as a swift package dependency t
 This package highly depends in the Pinpoint Hardware you are using.
 
 Make sure to use the corresponding tag (e.g. 12.1.0) when adding this package to your project,
-
 
 
 ## Usage
@@ -41,9 +41,6 @@ First, import the module at the top of your Swift file:
 ```swift
 import PinpointSDK
 ```
-
-
-### API Class Overview
 
 The `PinpointApi` class provides various functions to interact with nearby tracelets using Bluetooth. 
 
@@ -195,7 +192,7 @@ api.stopScan()
 This will return you a WGS84 coordinate as `CLLocationCoordinate2D`.
 
 
-
+---
 
 ### More Tracelet Commands
 
