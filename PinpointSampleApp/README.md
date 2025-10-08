@@ -64,7 +64,7 @@ If connected, tap **Show Me** to trigger the TRACElet’s “show me” action -
 | Button | Action |
 |--------|---------|
 | **Connect / Disconnect** | Connects or disconnects from the TRACElet |
-| **Show Me** | Requests the TRACElet to indicate its position |
+| **Show Me** | Requests the TRACElet to indicate itself (lighting up an LED) |
 | **Gear (⚙️)** | Opens the reference coordinate setup sheet |
 
 ---
