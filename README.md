@@ -238,3 +238,8 @@ if let version = await api.getVersion() {
     print("Tracelet firmware version: \(version)")
 }
 ```
+
+
+### License 
+
+This package is licensed under a proprietary license. Please refer to the LICENSE file for more details.
