@@ -24,10 +24,10 @@ class PositionProvider: ObservableObject {
     // Used for converting local coordinates to World Coordinates (WGS84)
     var REF_LAT:Double?
     var REF_LON:Double?
-    var REF_AZI:Double?
-    
+    var REF_AZI:Double?    
  
     
+    // Set up listeners for state and position changes
     init() {
         setUpStateListener()
         setUpPositionListener()
@@ -47,11 +47,15 @@ class PositionProvider: ObservableObject {
         }
     }
     
+    
+    // Scans and connects to a TRACElet and start the local position stream
     func connectTraceletAndStart() async throws -> Bool {
         guard isBleReady() else { return false}
         
         let devices = try await withCheckedThrowingContinuation { continuation in
             var hasResumed = false
+            // The `scan()` function returns a sorted list by RSSI of Pinpoint TRACElets
+            // Usually it is fine to connect to the first one in the list (the only one / closest one)
             api.scan(timeout: 3.0) { devices in
                 guard !hasResumed else { return }
                 hasResumed = true
@@ -84,6 +88,7 @@ class PositionProvider: ObservableObject {
         }
     }
     
+    // Disconnects the TRACElet
     func disconnect() {
         Task {
             await api.disconnect()
@@ -104,8 +109,8 @@ class PositionProvider: ObservableObject {
         return api.bleState == .BT_OK
     }
 
-    
 
+    // Converts local positions to WGS84 Positions
     func generateWorldPosition() {
         if let localPos = self.localPosition,
            let lat = REF_LAT,

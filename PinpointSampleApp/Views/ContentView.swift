@@ -100,8 +100,6 @@ struct ContentView: View {
                             .overlay(
                                 Circle()
                                     .fill(isConnected() ? Color.green.opacity(0.3) : Color.red.opacity(0.3))
-                                    .scaleEffect(isConnected() ? 2.0 : 1.0)
-                                    .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: isConnected())
                             )
                     }
                     

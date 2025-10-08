@@ -13,6 +13,7 @@
 		D11A4DC32E8D35C400AC2355 /* GeneratedBuildInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11A4DC22E8D35C400AC2355 /* GeneratedBuildInfo.swift */; };
 		D145D4132E8409D500699B96 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D145D4122E8409D000699B96 /* ContentView.swift */; };
 		D145D41A2E840B7100699B96 /* PositionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D145D4192E840B6B00699B96 /* PositionProvider.swift */; };
+		D19310AD2E9697BA004A07B9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D19310AC2E9697AD004A07B9 /* README.md */; };
 		D1A1744D2E8BECBF00DE798A /* PinpointSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1A1744C2E8BECBF00DE798A /* PinpointSDK.xcframework */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +25,9 @@
 		D11A4DC22E8D35C400AC2355 /* GeneratedBuildInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedBuildInfo.swift; sourceTree = "<group>"; };
 		D145D4122E8409D000699B96 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D145D4192E840B6B00699B96 /* PositionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionProvider.swift; sourceTree = "<group>"; };
+		D19310AC2E9697AD004A07B9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D19310B82E9698D8004A07B9 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		D19310B92E9698D8004A07B9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D1A1744C2E8BECBF00DE798A /* PinpointSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = PinpointSDK.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -49,6 +53,8 @@
 				D112270729B9EF8B00E49993 /* PinpointSampleApp */,
 				D112270629B9EF8B00E49993 /* Products */,
 				D1A1744C2E8BECBF00DE798A /* PinpointSDK.xcframework */,
+				D19310B82E9698D8004A07B9 /* LICENSE */,
+				D19310B92E9698D8004A07B9 /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -63,6 +69,7 @@
 		D112270729B9EF8B00E49993 /* PinpointSampleApp */ = {
 			isa = PBXGroup;
 			children = (
+				D19310AC2E9697AD004A07B9 /* README.md */,
 				D145D4142E840B5000699B96 /* Widgets */,
 				D1A98B5C2C3D6C4D000CB06A /* Models */,
 				D1569D8F29BA214F00D0E578 /* Views */,
@@ -164,6 +171,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D19310AD2E9697BA004A07B9 /* README.md in Resources */,
 				D112270D29B9EF8C00E49993 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -333,7 +341,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "";
-				INFOPLIST_KEY_CFBundleDisplayName = "Pinpoint Prototyping";
+				INFOPLIST_KEY_CFBundleDisplayName = "Pinpoint Demo";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Bluetooth is needed to connect to the tracelet";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth is needed to connect to the tracelet";
@@ -351,8 +359,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 12.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.pinpoint.iosdemo;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.example.demo-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -378,7 +386,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "";
-				INFOPLIST_KEY_CFBundleDisplayName = "Pinpoint Prototyping";
+				INFOPLIST_KEY_CFBundleDisplayName = "Pinpoint Demo";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Bluetooth is needed to connect to the tracelet";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth is needed to connect to the tracelet";
@@ -396,8 +404,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 12.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.pinpoint.iosdemo;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.example.demo-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
