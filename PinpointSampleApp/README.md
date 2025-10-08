@@ -15,7 +15,7 @@ The **PinpointSampleApp** demonstrates:
 - Showing connection state and accuracy
 
 
-## User Flow
+## How to use
 
 ### 1. Launch the App
 When the app starts, you’ll see two main sections:
@@ -47,7 +47,7 @@ Tap the ⚙️ **gear icon** in the *WGS84 Coordinates* card to set a **referenc
 This defines how the local coordinate system aligns with the real world.
 
 
-### 5. “Show Me” Mode
+### 5. “Show Me” 
 If connected, tap **Show Me** to trigger the TRACElet’s “show me” action - a visual feedback feature provided by the device.
 
 
@@ -57,7 +57,7 @@ If connected, tap **Show Me** to trigger the TRACElet’s “show me” action -
 |--------|---------|
 | **Connect / Disconnect** | Connects or disconnects from the TRACElet |
 | **Show Me** | Requests the TRACElet to indicate itself (lighting up an LED) |
-| **Gear (⚙️)** | Opens the reference coordinate setup sheet |
+| **Gear (⚙️)** | Set reference coordinates for WGS84 conversion |
 
 
 
@@ -68,13 +68,7 @@ This app is a **demo** for:
 - Experimenting with coordinate transformations
 
 
-## 🖼️ UI Preview
+## UI Preview
 
 ![Demo App Screenshot](../images/demo-app-screen.png)
 
-## How to Run
-
-1. Open the project in **Xcode**.
-2. Select your target device (iPhone).
-3. Build & run the app.
-4. Hold your TRACElet near the phone and tap **Connect**.
