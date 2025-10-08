@@ -1,7 +1,17 @@
 # Pinpoint iOS SDK
 
-## Demo App
-This repo contains a sample app that demonstrates the usage of the `Pinpoint iOS SDK`
+## Introduction
+
+The Pinpoint iOS SDK is a Swift package for Ultra-Wideband (UWB) positioning with [Pinpoint's](https://pinpoint.de) technology.
+
+
+## Features 
+
+* Scan for TRACElets
+* Connect to TRACElets
+* Get continuous location updates
+* Check if Bluetooth is enabled on the device
+* Convert local positions to world corrdinates (WGS84)
 
 
 ## Installation
@@ -19,6 +29,11 @@ Make sure to use the corresponding tag (e.g. 12.1.0) when adding this package to
 
 To use the `Pinpoint iOS SDK`  in your iOS project, follow the steps below..
 
+The provided demo app is this repo can be used as an implementation example for the SDK.
+
+The usage examples below can be found in `PositionProvider.swift` inside the demo app.
+
+
 ### Importing the Module
 
 First, import the module at the top of your Swift file:
@@ -27,9 +42,12 @@ First, import the module at the top of your Swift file:
 import PinpointSDK
 ```
 
+
 ### API Class Overview
 
-The `Easylocate` class provides various functions to interact with nearby tracelets using Bluetooth. Below are the main functions available for public use:
+The `PinpointApi` class provides various functions to interact with nearby tracelets using Bluetooth. 
+
+Below are the main functions available for public use:
 
 ### Singleton Instance
 
@@ -39,54 +57,40 @@ Access the singleton instance of the `API` class:
 let api = PinpointApi.shared
 ```
 
-### Flow-logic to receive postion data
+### Set up callbacks for state changes and position changes
 
-1. Scan for tracelet
-2. Connect to tracelet
-3. Send 'StartPositioning'-Command to tracelet.
-4. Listen to position stream.
-
-
-### Scanning for Tracelets (1)
-
-Start scanning for nearby tracelets with a specified timeout. The completion handler returns a list of discovered tracelets.
-
-```swift
-api.scan(timeout: 3.0) { tracelets in
-    print("Discovered tracelets: \(tracelets)")
-}
 ```
-
-Stop the scanning process:
-
-```swift
-api.stopScan()
-```
-
-### Connecting to a Tracelet and start positioning (2+3)
-
-
-Preferably use this function, to connect and directly start positioning mode:
-
-```swift
-if let tracelet = discoveredTracelets.first {
-    do {
-        let success = try await api.connectAndStartPositioning(device: tracelet)
-        print("Connection and positioning success: \(success)")
-    } catch {
-        print("Connection and positioning failed with error: \(error)")
+    init() {
+        setUpStateListener()
+        setUpPositionListener()
     }
-}
+    
+    
+    func setUpPositionListener() {
+        api.onPositionUpdate = { position in
+            self.handleNewPosition(position)
+        }
+    }
+    
+    
+    func setUpStateListener() {
+        api.onStateChange = { state in
+            self.connectionState = state
+        }
+    }
+    
+    // Handle position changes
+    // Returns a `LocalPosition` object
+    private func handleNewPosition(_ position: LocalPosition?) {
+        localPosition = position
+        generateWorldPosition()
+    }
+    
 ```
-*Hint:* The function `connectAndStartPositioning(device: tracelet)` will set up the tracelet with settings, broadcasted by the SATlets.
-This will only work, if you are in a location with a set up Pinpoint UWB network!
 
+#### Listen to @Published position stream (Alternative)
 
-### Listen to local position stream (4)
-
-#### @Published location stream
-
-When using SwiftUI, you can simply observe the published `api.localPosition` variable for changes.
+Altenatively, you can listen to changes within the published variable `api.localPosition`  directly, when using SwiftUI
 
 ```swift
 
@@ -103,26 +107,94 @@ When using SwiftUI, you can simply observe the published `api.localPosition` var
 
 ```
 
-#### Callback Function
+### Connecting to a TRACElet / starting position export
 
-Alternatively you can make use of a callback function `onwNewLocalPosition()`
+The process to receive local positions from the TRACElet requires three steps:
 
-The callback returns a `PositionData` object and can be assigned as follows:
+* Scan for Pinpoint Bluetooth TRACElets
+* Connect to the TRACElet
+* Send the `startPositioning` command
+
+For convience, you can perform all three steps within one function:
 
 
 ```swift
-api.onPositionUpdate = { position in
-    self.updatePositionData(localPosition: position)
-}
+    func connectTraceletAndStart() async throws -> Bool {
+        guard isBleReady() else { return false}
+        
+        let devices = try await withCheckedThrowingContinuation { continuation in
+            var hasResumed = false
+            api.scan(timeout: 3.0) { devices in
+                guard !hasResumed else { return }
+                hasResumed = true
+                continuation.resume(returning: devices)
+            }
+        }
+        // The `scan()` function returns a sorted list by RSSI of Pinpoint TRACElets
+        // Usually it is fine to connect to the first one in the list (the only one / closest one)
+        guard let tracelet = devices.first else { return false }
+        // Store connected Tracelet
+        connectedTracelet = tracelet.peripheral
+        
+        let success = try await connectToTraceletAndStartPositioning(tracelet)
+        return success
+    }
+
+    
+    // Convienience function to connect to the TRACElet and start the position stream
+   private func connectToTraceletAndStartPositioning(_ tracelet: DiscoveredTracelet) async throws -> Bool {
+        let success = try await api.connectAndStartPositioning(device: tracelet.peripheral)
+        return success
+    }
+    
+    // Getter function to the check current BLE state
+    func isBleReady() -> Bool {
+        return api.bleState == .BT_OK
+    }
+    
 ```
 
 
+*Hint:* The function `connectAndStartPositioning(device: tracelet)` will set up the tracelet with settings, broadcasted by the SATlets.
+This will only work, if you are in a location with a set up Pinpoint UWB network!
 
-### Disconnect from a tracelet:
+
+### Stop the scanning process manually
 
 ```swift
-await api.disconnect()
+api.stopScan()
 ```
+
+### Disconnect TRACElet
+
+```swift
+    func disconnect() {
+        Task {
+            await api.disconnect()
+        }
+    }
+```
+
+
+### Converting local positions to WGS84 coordinates
+
+```swift
+    func generateWorldPosition() {
+        if let localPos = self.localPosition,
+           let lat = REF_LAT,
+           let lon = REF_LON,
+           let azi = REF_AZI {
+            
+            let uwbPosition = CGPoint(x: localPos.x, y: localPos.y)
+            self.worldPosition = WGS84Position(refLatitude: lat, refLongitude: lon, refAzimuth: azi)
+                .getWGS84Position(uwbPosition: uwbPosition)
+        }
+    }
+```
+
+This will return you a WGS84 coordinate as `CLLocationCoordinate2D`.
+
+
 
 
 ### More Tracelet Commands
@@ -130,31 +202,20 @@ await api.disconnect()
 Send a "ShowMe" command to a connected tracelet:
 
 ```swift
-let success = await api.showMe()
+    func showMe() async -> Bool {
+        if let tracelet = connectedTracelet {
+            let success = await api.showMe(tracelet: tracelet)
+            return success
+        } else {
+            return false
+        }
+    }
 ```
 
-Start UWB-positioning on a connected tracelet:
-
-```swift
-let success = await api.startPositioning()
-```
-
-Stop UWB-positioning on a connected tracelet:
+Stop UWB-positioning on a connected TRACElet:
 
 ```swift
 let success = api.stopPositioning()
-```
-
-Set the communication channel (5 or 9):
-
-```swift
-let success = await api.setChannel(channel: 9, preamble: 9)
-```
-
-Set the SiteID filter for the tracelet (This filters the tracelet for a specific SiteID - Don`t use if not neccessary):
-
-```swift
-let success = await api.setSiteID(siteID: 0x0001)
 ```
 
 Set the positioning interval:
@@ -165,7 +226,7 @@ let success = await api.setMotionCheckInterval(interval: 1) // Interval in n x 2
 
 ### Retrieving Tracelet Information
 
-Request the status of a connected tracelet:
+Request the status of a connected TRACElet:
 
 ```swift
 if let status = await api.getStatus() {
@@ -173,21 +234,10 @@ if let status = await api.getStatus() {
 }
 ```
 
-
-Request the firmware version of a connected tracelet:
+Request the firmware version of a connected TRACElet:
 
 ```swift
 if let version = await api.getVersion() {
     print("Tracelet firmware version: \(version)")
 }
 ```
-
-### Known issues
-
-If you get an error of rsync missing permissions, make sure to update your Xcode project build option ENABLE_USER_SCRIPT_SANDBOXING to 'No'.
-
-![XCode Settings Image](https://i.stack.imgur.com/vqk8D.png)
-
-
-
-
