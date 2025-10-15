@@ -8,19 +8,16 @@ The Pinpoint iOS SDK is a Swift package for [FiRa](https://www.firaconsortium.or
 
 The Pinpoint iOS can be used to integrate our indoor positioning system into your own solutions.
 
-<table style="border:none; border-collapse:collapse;">
-  <tr>
-    <td align="center" style="border:none; padding:10px;">
-      <img src="images/navigation-app-screen.png" alt="Routing Solution" width="300"/><br/>
-      <sub><b>(Example application) Routing Solution</b></sub>
-    </td>
-    <td align="center" style="border:none; padding:10px;">
-      <img src="images/prototyping-app-screen.png" alt="Integration with Apple Maps" width="300"/><br/>
-      <sub><b>(example application) Integration with Apple Maps</b></sub>
-    </td>
-  </tr>
-</table>
+<div align="center">
 
+## Screenshots
+
+| Routing Solution | Integration with Apple Maps |
+|:---:|:---:|
+| <img src="images/navigation-app-screen.png" alt="Routing Solution" width="300"/> | <img src="images/prototyping-app-screen.png" alt="Integration with Apple Maps" width="300"/> |
+| *Example application showing routing solution* | *Example application with Apple Maps integration* |
+
+</div>
 
 
 ## Features 
