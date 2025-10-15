@@ -1,19 +1,57 @@
 # Pinpoint iOS SDK
 
 ## Introduction
+The Pinpoint iOS SDK is a Swift package for [FiRa](https://www.firaconsortium.org) compliant Ultra-Wideband (UWB) positioning with [Pinpoint's](https://pinpoint.de) technology.
 
-The Pinpoint iOS SDK is a Swift package for Ultra-Wideband (UWB) positioning with [Pinpoint's](https://pinpoint.de) technology.
+## Example Apps
+
+The Pinpoint iOS can be used to integrate our indoor positioning system into your own solutions.
+
+## Example Apps
+
+The Pinpoint iOS can be used to integrate our indoor positioning system into your own solutions.
+
+<table style="border:none; border-collapse:collapse;">
+  <tr>
+    <td align="center" style="border:none; padding:10px;">
+      <img src="images/navigation-app-screen.png" alt="Routing Solution" width="300"/><br/>
+      <sub><b>Routing Solution</b></sub>
+    </td>
+    <td align="center" style="border:none; padding:10px;">
+      <img src="images/prototyping-app-screen.png" alt="Integration with Apple Maps" width="300"/><br/>
+      <sub><b>Integration with Apple Maps</b></sub>
+    </td>
+  </tr>
+</table>
+
 
 
 ## Features 
 
-* Scan for TRACElets
-* Connect to TRACElets
-* Get continuous location updates
-* Check if Bluetooth is enabled on the device
-* Convert local positions to world corrdinates (WGS84)
+
+* Indoor Positioning for GNSS/GPS denied areas
+* Accuracy of up to 30 cm
+* Simple Integration
 
 ---
+
+
+## Prerequisites
+
+Before integrating the Pinpoint iOS SDK, please ensure you have access to the necessary Pinpoint hardware components.
+
+The SDK requires compatible **Pinpoint Hardware** for accurate indoor positioning. Depending on your use case, you can use one of the following hardware options:
+
+- **[Prototyping Kit](https://pinpoint.de/en/products/hardware/prototyping-kit):**  
+  Ideal for developers and researchers who want to quickly evaluate and experiment with Pinpoint’s indoor positioning capabilities.  
+  The kit includes all essential components required to set up a small-scale test environment.
+
+- **[SATlets](https://pinpoint.de/en/products/hardware/satlet):**  
+  Compact satellite modules designed for scalable and permanent installations.  
+  SATlets are suitable for production environments or larger deployments requiring reliable and precise indoor localization.
+
+To ensure optimal performance, confirm that your hardware is correctly installed and configured before running the SDK.
+
 
 ## Installation
 
