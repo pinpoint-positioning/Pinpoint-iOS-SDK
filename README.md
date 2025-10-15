@@ -3,9 +3,6 @@
 ## Introduction
 The Pinpoint iOS SDK is a Swift package for [FiRa](https://www.firaconsortium.org) compliant Ultra-Wideband (UWB) positioning with [Pinpoint's](https://pinpoint.de) technology.
 
-## Example Apps
-
-The Pinpoint iOS can be used to integrate our indoor positioning system into your own solutions.
 
 ## Example Apps
 
@@ -15,11 +12,11 @@ The Pinpoint iOS can be used to integrate our indoor positioning system into you
   <tr>
     <td align="center" style="border:none; padding:10px;">
       <img src="images/navigation-app-screen.png" alt="Routing Solution" width="300"/><br/>
-      <sub><b>Routing Solution</b></sub>
+      <sub><b>(Example application) Routing Solution</b></sub>
     </td>
     <td align="center" style="border:none; padding:10px;">
       <img src="images/prototyping-app-screen.png" alt="Integration with Apple Maps" width="300"/><br/>
-      <sub><b>Integration with Apple Maps</b></sub>
+      <sub><b>(example application) Integration with Apple Maps</b></sub>
     </td>
   </tr>
 </table>
