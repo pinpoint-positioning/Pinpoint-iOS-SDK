@@ -49,7 +49,7 @@ To ensure optimal performance, confirm that your hardware is correctly installed
 
 ## Installation
 
-To integrate the `Pinpoint iOS SDK` add the repo as a swift package dependency to you project using the Swift Package Manager
+To integrate the `Pinpoint iOS SDK` add the repo as a swift package dependency to you project using the Swift Package Manager. [Apple Docs - Adding package dependencies to your app](https://developer.apple.com/documentation/xcode/adding-package-dependencies-to-your-app)
 
 ### Versioning
 This package highly depends in the Pinpoint Hardware you are using.
