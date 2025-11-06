@@ -1,21 +1,23 @@
 # Pinpoint iOS SDK
 
 ## Introduction
+
 The Pinpoint iOS SDK is a Swift package for [FiRa](https://www.firaconsortium.org) compliant Ultra-Wideband (UWB) positioning with [Pinpoint's](https://pinpoint.de) technology.
 
 
-## Example Apps
+## Use Cases
 
 The Pinpoint iOS can be used to integrate our indoor positioning system into your own solutions.
 
 <div align="center">
 
-## Screenshots
 
-| Routing Solution | Integration with Apple Maps |
-|:---:|:---:|
+## Use Case examples
+
+|                       Routing Solution                       |                 Integration with Apple Maps                  |
+| :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="images/navigation-app-screen.png" alt="Routing Solution" width="300"/> | <img src="images/prototyping-app-screen.png" alt="Integration with Apple Maps" width="300"/> |
-| *Example application showing routing solution* | *Example application with Apple Maps integration* |
+|                  Navigation with MapsPeople                  |                   Positioning with MapBox                    |
 
 </div>
 
@@ -57,11 +59,11 @@ This package highly depends in the Pinpoint Hardware you are using.
 Make sure to use the corresponding tag (e.g. 12.1.0) when adding this package to your project,
 
 
-## Usage
+## Getting Started
 
-To use the `Pinpoint iOS SDK`  in your iOS project, follow the steps below..
+To use the `Pinpoint iOS SDK`  in your iOS project, follow the steps below.
 
-The provided demo app is this repo can be used as an implementation example for the SDK.
+We strongly recommend to use the included [Sample App]("https://github.com/pinpoint-positioning/Pinpoint-iOS-SDK/tree/main/PinpointSampleApp") as implementation reference.
 
 The usage examples below can be found in `PositionProvider.swift` inside the demo app.
 
@@ -89,19 +91,21 @@ let api = PinpointApi.shared
 ### Set up callbacks for state changes and position changes
 
 ```
+    // Set up callback to receivce SDK updates early in your class
     init() {
         setUpStateListener()
         setUpPositionListener()
     }
     
-    
+    // Listen to position updates
     func setUpPositionListener() {
         api.onPositionUpdate = { position in
+            // Your code here e.g.
             self.handleNewPosition(position)
         }
     }
     
-    
+    // Listen to state updates
     func setUpStateListener() {
         api.onStateChange = { state in
             self.connectionState = state
@@ -111,6 +115,7 @@ let api = PinpointApi.shared
     // Handle position changes
     // Returns a `LocalPosition` object
     private func handleNewPosition(_ position: LocalPosition?) {
+    // Your code here e.g.
         localPosition = position
         generateWorldPosition()
     }
@@ -122,13 +127,14 @@ let api = PinpointApi.shared
 Altenatively, you can listen to changes within the published variable `api.localPosition`  directly, when using SwiftUI
 
 ```swift
-
 .onAppear {
+    // Your code here e.g.
     // Set initial position
     xPos = api.localPosition.xCoord
     yPos = api.localPosition.yCoord
 }
 .onChange(of: api.localPosition) { newPosition in
+    // Your code here e.g.
     // Update position when localPosition changes
     xPos = newPosition.xCoord
     yPos = newPosition.yCoord
@@ -215,6 +221,7 @@ api.stopScan()
            let azi = REF_AZI {
             
             let uwbPosition = CGPoint(x: localPos.x, y: localPos.y)
+             // The SDK provides a conversion method on WGS84Position, to convert local positions to world coordinates (WGS84)
             self.worldPosition = WGS84Position(refLatitude: lat, refLongitude: lon, refAzimuth: azi)
                 .getWGS84Position(uwbPosition: uwbPosition)
         }
@@ -241,10 +248,14 @@ Send a "ShowMe" command to a connected tracelet:
     }
 ```
 
-Stop UWB-positioning on a connected TRACElet:
+Stop UWB-positioning on a connected TRACElet (Turn off UWB Module):
 
 ```swift
+// Stop UWB module (while stay connected via BLE)
 let success = api.stopPositioning()
+
+// Start UWB module (while still connected via BLE)
+let success = await.startPositioning()
 ```
 
 Set the positioning interval:
@@ -274,4 +285,4 @@ if let version = await api.getVersion() {
 
 ### License 
 
-This package is licensed under a proprietary license. Please refer to the LICENSE file for more details.
+This package is licensed under a proprietary license. Please refer to the [LICENSE]("https://github.com/pinpoint-positioning/Pinpoint-iOS-SDK/blob/main/LICENSE") file for more details.
