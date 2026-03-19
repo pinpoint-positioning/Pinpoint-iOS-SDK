@@ -197,10 +197,12 @@ struct ContentView: View {
                     Button(action: {
                         if !isConnected() {
                             Task {
-                                await connectToTracelet()
+                                await startPositionStream()
                             }
                         } else {
-                            disconnect()
+                            Task {
+                                await stopPositionStream()
+                            }
                         }
                     }) {
                         HStack {
@@ -274,6 +276,10 @@ struct ContentView: View {
             .padding(.horizontal, 24)
             
         }
+        
+        .task {
+            await positionProvider.setup()
+        }
         .sheet(isPresented: $showReferenceSheet) {
             ReferenceCoordinateSheet(
                 onSave: setWorldCoordinateReference
@@ -289,21 +295,20 @@ struct ContentView: View {
         }
     }
     
-    func disconnect() {
-        positionProvider.disconnect()
+    func stopPositionStream() async {
+        await positionProvider.stopPositionStream()
         
     }
     
-    func connectToTracelet() async {
+    
+    // Start the connection flow and set UI flags
+    func startPositionStream() async {
         isConnecting = true
-        do {
-            let _ = try await positionProvider.connectTraceletAndStart()
-            isConnecting = false
-        } catch {
-            isConnecting = false
-            print("Error connecting to Tracelet: \(error)")
-        }
+        await positionProvider.startPositionStream()
+        isConnecting = false
+
     }
+    
     
     func isConnected () -> Bool {
         return positionProvider.connectionState == .CONNECTED
@@ -319,7 +324,6 @@ struct ContentView: View {
     }
     
 }
-
 
 
 

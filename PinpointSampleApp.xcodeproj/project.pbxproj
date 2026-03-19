@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D10F8D622F6C3E440094EAE4 /* PinpointSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = D10F8D612F6C3E440094EAE4 /* PinpointSDK.xcframework */; };
 		D112270929B9EF8B00E49993 /* PinpointSampleAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D112270829B9EF8B00E49993 /* PinpointSampleAppApp.swift */; };
 		D112270D29B9EF8C00E49993 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D112270C29B9EF8C00E49993 /* Assets.xcassets */; };
 		D11A4DC12E8D355100AC2355 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11A4DC02E8D354F00AC2355 /* Test.swift */; };
@@ -14,7 +15,6 @@
 		D145D4132E8409D500699B96 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D145D4122E8409D000699B96 /* ContentView.swift */; };
 		D145D41A2E840B7100699B96 /* PositionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D145D4192E840B6B00699B96 /* PositionProvider.swift */; };
 		D19310AD2E9697BA004A07B9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D19310AC2E9697AD004A07B9 /* README.md */; };
-		D1BBC1702EBCE6DE00A1F7E0 /* PinpointSDK in Frameworks */ = {isa = PBXBuildFile; productRef = D1BBC16F2EBCE6DE00A1F7E0 /* PinpointSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +31,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D10F8D612F6C3E440094EAE4 /* PinpointSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = PinpointSDK.xcframework; sourceTree = "<group>"; };
 		D112270529B9EF8B00E49993 /* PinpointSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PinpointSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D112270829B9EF8B00E49993 /* PinpointSampleAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinpointSampleAppApp.swift; sourceTree = "<group>"; };
 		D112270C29B9EF8C00E49993 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -52,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1BBC1702EBCE6DE00A1F7E0 /* PinpointSDK in Frameworks */,
+				D10F8D622F6C3E440094EAE4 /* PinpointSDK.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +67,7 @@
 				D112270629B9EF8B00E49993 /* Products */,
 				D19310B82E9698D8004A07B9 /* LICENSE */,
 				D19310B92E9698D8004A07B9 /* README.md */,
+				D10F8D612F6C3E440094EAE4 /* PinpointSDK.xcframework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -138,7 +140,6 @@
 			);
 			name = PinpointSampleApp;
 			packageProductDependencies = (
-				D1BBC16F2EBCE6DE00A1F7E0 /* PinpointSDK */,
 			);
 			productName = PinpointSampleApp;
 			productReference = D112270529B9EF8B00E49993 /* PinpointSampleApp.app */;
@@ -169,7 +170,6 @@
 			);
 			mainGroup = D11226FC29B9EF8B00E49993;
 			packageReferences = (
-				D1BBC16E2EBCE6DE00A1F7E0 /* XCRemoteSwiftPackageReference "Pinpoint-iOS-SDK" */,
 			);
 			productRefGroup = D112270629B9EF8B00E49993 /* Products */;
 			projectDirPath = "";
@@ -454,25 +454,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		D1BBC16E2EBCE6DE00A1F7E0 /* XCRemoteSwiftPackageReference "Pinpoint-iOS-SDK" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/pinpoint-positioning/Pinpoint-iOS-SDK";
-			requirement = {
-				kind = exactVersion;
-				version = 12.1.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		D1BBC16F2EBCE6DE00A1F7E0 /* PinpointSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D1BBC16E2EBCE6DE00A1F7E0 /* XCRemoteSwiftPackageReference "Pinpoint-iOS-SDK" */;
-			productName = PinpointSDK;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D11226FD29B9EF8B00E49993 /* Project object */;
 }

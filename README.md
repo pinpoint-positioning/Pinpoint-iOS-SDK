@@ -56,7 +56,7 @@ To integrate the `Pinpoint iOS SDK` add the repo as a swift package dependency t
 ### Versioning
 This package highly depends in the Pinpoint Hardware you are using.
 
-Make sure to use the corresponding tag (e.g. 12.1.0) when adding this package to your project,
+Make sure to use the corresponding tag (e.g. 12.2.0) when adding this package to your project,
 
 
 ## Getting Started
@@ -80,44 +80,47 @@ The `PinpointApi` class provides various functions to interact with nearby trace
 
 Below are the main functions available for public use:
 
-### Singleton Instance
+### Initialize the SDK
 
-Access the singleton instance of the `API` class:
+Initialize the `API` class with your API-Key. 
+The initialization requires to run ansynchronously.
+
+It`s recommended to initialize the API in a central place in your app and make it observable for other parts of your application.
+Make your class conform to `PinpointAPIDelegate`
 
 ```swift
-let api = PinpointApi.shared
-```
+class PositionProvider: ObservableObject, PinpointAPIDelegate {
 
-### Set up callbacks for state changes and position changes
-
-```
-    // Set up callback to receivce SDK updates early in your class
-    init() {
-        setUpStateListener()
-        setUpPositionListener()
-    }
-    
-    // Listen to position updates
-    func setUpPositionListener() {
-        api.onPositionUpdate = { position in
-            // Your code here e.g.
-            self.handleNewPosition(position)
+    private func initializeSDK() async {
+        do {
+            let sdk = try await PinpointAPI(apiKey: "YOUR-API-KEY")
+            self.api = sdk
+            self.api?.delegate = self   // assign self as delegate
+            print("SDK initialized successfully")
+        } catch {
+            self.api = nil
+            print("SDK initialization failed:", error)
+            
         }
     }
+```
+
+### Implement delegate stubs for state changes and position changes
+
+```
+  func pinpointAPI(_ api: PinpointSDK.PinpointAPI, didUpdatePosition position: PinpointSDK.LocalPosition) {
+        self.handleNewPosition(position)
+    }
     
-    // Listen to state updates
-    func setUpStateListener() {
-        api.onStateChange = { state in
+    func pinpointAPI(_ api: PinpointAPI, didChangeBLEState state: BLEState) {
+        print(state)
+    }
+    
+    
+    func pinpointAPI(_ api: PinpointAPI, didChangeConnectionState state: ConnectionState) {
+        DispatchQueue.main.async {
             self.connectionState = state
         }
-    }
-    
-    // Handle position changes
-    // Returns a `LocalPosition` object
-    private func handleNewPosition(_ position: LocalPosition?) {
-    // Your code here e.g.
-        localPosition = position
-        generateWorldPosition()
     }
     
 ```
@@ -144,14 +147,28 @@ Altenatively, you can listen to changes within the published variable `api.local
 
 ### Connecting to a TRACElet / starting position export
 
-The process to receive local positions from the TRACElet requires three steps:
+The connection, setup and position updates can be initiated with as single function call of `startPositionStream()`.
 
-* Scan for Pinpoint Bluetooth TRACElets
-* Connect to the TRACElet
-* Send the `startPositioning` command
+When the call was successful, you receveive position updates via `api.onPositionUpdate` callback.
 
-For convience, you can perform all three steps within one function:
+```swift
+    // Start the TRACElet connection flow
+    func startPositionStream() async  {
+        guard let api = self.api else { return }
+        do {
+            try await api.startPositionStream()
+        }
+        catch {
+            print(error)
+        }
+    }
+```
 
+
+
+### Manual connection handling (Not recommended) 
+You can handle the TRACElet connection and setup flow manually by using the methods below.
+Be aware, that this needs more in-depth knowlegde and is not actively supported by Pinpoint.
 
 ```swift
     func connectTraceletAndStart() async throws -> Bool {
