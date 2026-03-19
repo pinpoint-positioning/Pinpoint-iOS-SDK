@@ -14,7 +14,7 @@ The Pinpoint iOS can be used to integrate our indoor positioning system into you
 
 ## Use Case examples
 
-|                       Routing Solution                       |                 Integration with Apple Maps                  |
+|                       Routing Solution                       |                 Integration with MapBox                  |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="images/navigation-app-screen.png" alt="Routing Solution" width="300"/> | <img src="images/prototyping-app-screen.png" alt="Integration with Apple Maps" width="300"/> |
 |                  Navigation with MapsPeople                  |                   Positioning with MapBox                    |
