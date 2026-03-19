@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D10F8D622F6C3E440094EAE4 /* PinpointSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = D10F8D612F6C3E440094EAE4 /* PinpointSDK.xcframework */; };
 		D112270929B9EF8B00E49993 /* PinpointSampleAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D112270829B9EF8B00E49993 /* PinpointSampleAppApp.swift */; };
 		D112270D29B9EF8C00E49993 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D112270C29B9EF8C00E49993 /* Assets.xcassets */; };
 		D11A4DC12E8D355100AC2355 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11A4DC02E8D354F00AC2355 /* Test.swift */; };
@@ -31,7 +30,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D10F8D612F6C3E440094EAE4 /* PinpointSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = PinpointSDK.xcframework; sourceTree = "<group>"; };
 		D112270529B9EF8B00E49993 /* PinpointSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PinpointSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D112270829B9EF8B00E49993 /* PinpointSampleAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinpointSampleAppApp.swift; sourceTree = "<group>"; };
 		D112270C29B9EF8C00E49993 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -53,7 +51,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D10F8D622F6C3E440094EAE4 /* PinpointSDK.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,7 +64,6 @@
 				D112270629B9EF8B00E49993 /* Products */,
 				D19310B82E9698D8004A07B9 /* LICENSE */,
 				D19310B92E9698D8004A07B9 /* README.md */,
-				D10F8D612F6C3E440094EAE4 /* PinpointSDK.xcframework */,
 			);
 			sourceTree = "<group>";
 		};
