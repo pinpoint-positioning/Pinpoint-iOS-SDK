@@ -85,7 +85,7 @@ Below are the main functions available for public use:
 Initialize the `API` class with your API-Key. 
 The initialization requires to run ansynchronously.
 
-It`s recommended to initialize the API in a central place in your app and make it observable for other parts of your application.
+It's recommended to initialize the API in a central place in your app and make it observable for other parts of your application.
 Make your class conform to `PinpointAPIDelegate`
 
 ```swift
@@ -149,7 +149,7 @@ Altenatively, you can listen to changes within the published variable `api.local
 
 The connection, setup and position updates can be initiated with as single function call of `startPositionStream()`.
 
-When the call was successful, you receveive position updates via `api.onPositionUpdate` callback.
+When the call was successful, you receveive continuous position updates via `didUpdatePosition` delegate method, you implemented before.
 
 ```swift
     // Start the TRACElet connection flow
@@ -159,16 +159,34 @@ When the call was successful, you receveive position updates via `api.onPosition
             try await api.startPositionStream()
         }
         catch {
+            // Handle Errors
             print(error)
         }
     }
 ```
 
 
+### Converting local positions to WGS84 coordinates
+
+```swift
+    func generateWorldPosition() {
+        if let localPos = self.localPosition,
+           let lat = REF_LAT,
+           let lon = REF_LON,
+           let azi = REF_AZI {
+            
+            let uwbPosition = CGPoint(x: localPos.x, y: localPos.y)
+             // The SDK provides a conversion method on WGS84Position, to convert local positions to world coordinates (WGS84)
+            self.worldPosition = WGS84Position(refLatitude: lat, refLongitude: lon, refAzimuth: azi)
+                .getWGS84Position(uwbPosition: uwbPosition)
+        }
+    }
+```
+
 
 ### Manual connection handling (Not recommended) 
 You can handle the TRACElet connection and setup flow manually by using the methods below.
-Be aware, that this needs more in-depth knowlegde and is not actively supported by Pinpoint.
+Be aware, that this needs more in-depth knowledge and is not actively supported by Pinpoint.
 
 ```swift
     func connectTraceletAndStart() async throws -> Bool {
@@ -228,22 +246,7 @@ api.stopScan()
 ```
 
 
-### Converting local positions to WGS84 coordinates
 
-```swift
-    func generateWorldPosition() {
-        if let localPos = self.localPosition,
-           let lat = REF_LAT,
-           let lon = REF_LON,
-           let azi = REF_AZI {
-            
-            let uwbPosition = CGPoint(x: localPos.x, y: localPos.y)
-             // The SDK provides a conversion method on WGS84Position, to convert local positions to world coordinates (WGS84)
-            self.worldPosition = WGS84Position(refLatitude: lat, refLongitude: lon, refAzimuth: azi)
-                .getWGS84Position(uwbPosition: uwbPosition)
-        }
-    }
-```
 
 This will return you a WGS84 coordinate as `CLLocationCoordinate2D`.
 
