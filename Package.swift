@@ -15,8 +15,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "PinpointSDK",
-            url: "https://github.com/pinpoint-positioning/Pinpoint-iOS-SDK/releases/download/12.2.0/PinpointSDK.xcframework.zip",
-            checksum: "a766f5c16f011e28734875faaaffa4a09f848dbe75b55cd0cc98fac821104636"
+            url: "https://github.com/pinpoint-positioning/Pinpoint-iOS-SDK/releases/download/12.2.1/PinpointSDK.xcframework.zip",
+            checksum: "2db13dc74652d0bdf5055577c35914a3da57aacf06a248c219da27ba7731fdeb"
         ),
     ]
 )
