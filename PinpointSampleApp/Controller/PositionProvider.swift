@@ -6,21 +6,22 @@
 //
 
 import Foundation
-import PinpointSDK
+import PinpointSDKFramework
 import SwiftUI
 import CoreBluetooth
 import CoreLocation
 
-class PositionProvider: ObservableObject, PinpointAPIDelegate {
+class PositionProvider: ObservableObject, PinpointStateDelegate, PinpointPositionDelegate {
 
     
     @Published private(set) var api: PinpointAPI?
     private var connectedTracelet: CBPeripheral?
-    @Published var connectionState: ConnectionState = .DISCONNECTED
     
-    // Published Positions
+    // Published Variables
     @Published var localPosition: LocalPosition?
     @Published var worldPosition: CLLocationCoordinate2D?
+    @Published var connectionState: ConnectionState = .DISCONNECTED
+    @Published var initializationError: String? = nil
     
     // Example WGS84 references
     // Used for converting local coordinates to World Coordinates (WGS84)
@@ -42,46 +43,47 @@ class PositionProvider: ObservableObject, PinpointAPIDelegate {
         do {
             let sdk = try await PinpointAPI(apiKey: "YOUR-API-KEY")
             self.api = sdk
-            self.api?.delegate = self   // assign self as delegate
+            self.api?.positionDelegate = self   // assign self as delegate
+            self.api?.stateDelegate = self   // assign self as delegate
             print("SDK initialized successfully")
         } catch {
             self.api = nil
+            self.initializationError = "License invalid or missing. Please check your API key."
             print("SDK initialization failed:", error)
-            
         }
     }
     
     
-    // Start the TRACElet connection flow
-    func startPositionStream() async  {
+    // Start the postion stream
+    func startPositionStream(siteID:UInt32, blob:Data) async  {
         guard let api = self.api else { return }
-        do {
-            try await api.startPositionStream()
-        }
-        catch {
-            print(error)
-        }
+            await api.startPositionStream(siteId: siteID, blob: blob)
     }
     
     
     
     // Lights up the LED on connected TRACElets for identification
-    func showMe() async -> Bool {
-        guard let api = self.api else {
-            return false
-        }
-            let success = await api.showMe()
-            return success
-    }
+    // Removed for native positioning example
     
-    // Disconnects the TRACElet
+//    func showMe() async -> Bool {
+//        guard let api = self.api else {
+//            return false
+//        }
+//            let success = await api.showMe()
+//            return success
+//    }
+    
+    // Stops the Position Stream
     func stopPositionStream() async {
             await api?.stopPositionStream()
     }
     
     private func handleNewPosition(_ position: LocalPosition?) {
-        localPosition = position
-        generateWorldPosition()
+        DispatchQueue.main.async {
+            self.localPosition = position
+            self.generateWorldPosition()
+        }
+
     }
     
     
@@ -102,7 +104,7 @@ class PositionProvider: ObservableObject, PinpointAPIDelegate {
     
     //MARK: - Delegate Implementation
     
-    func pinpointAPI(_ api: PinpointSDK.PinpointAPI, didUpdatePosition position: PinpointSDK.LocalPosition) {
+    func pinpointAPI(_ api: PinpointAPI, didUpdatePosition position: LocalPosition) {
         self.handleNewPosition(position)
     }
     

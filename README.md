@@ -68,6 +68,22 @@ We strongly recommend to use the included [Sample App]("https://github.com/pinpo
 The usage examples below can be found in `PositionProvider.swift` inside the demo app.
 
 
+### Setting the NIDLTDOA Development Profile
+
+1. Assign the *Nearby Interaction DL-TDoA Capability* to your Bundle Identifier in *AppstoreConnect*.
+
+<img src="images/appstore-connect-profile.png" alt="Integration with Apple Maps" width="400"/>
+
+2. Add this key to your `.entitlements` file
+
+```
+	<key>com.apple.developer.nearbyinteraction.dltdoa</key>
+	<true/>
+```
+3. Add NearbyInteraction Capability to your app
+<img src="images/ni-capability.png" alt="Integration with Apple Maps" width="400"/>
+
+
 ### Importing the Module
 
 First, import the module at the top of your Swift file:
@@ -85,21 +101,32 @@ Below are the main functions available for public use:
 Initialize the `API` class with your API-Key. 
 The initialization requires to run ansynchronously.
 
-It's recommended to initialize the API in a central place in your app and make it observable for other parts of your application.
-Make your class conform to `PinpointAPIDelegate`
+It's recommended to initialize the `API` in a central place in your app and make it observable for other parts of your application.
+
+The *PinpointSDK* offers two protocols to implement:
+- `PinpointStateDelegate`: Provides connection and BLE states updates.
+- `PinpointPositionDelegate`: Provides position updates.
+
+
+Make your class conform to `PinpointStateDelegate,` and `PinpointPositionDelegate`.
+
+**Hint**
+> You can use different classes to implement the delegates. E.g. a `StateManager` and a `PositionManager`. In our example, we implement both delegates in one single class.
+
 
 ```swift
-class PositionProvider: ObservableObject, PinpointAPIDelegate {
+class PositionProvider: ObservableObject,PinpointStateDelegate, PinpointPositionDelegate {
 
     private func initializeSDK() async {
         do {
             let sdk = try await PinpointAPI(apiKey: "YOUR-API-KEY")
             self.api = sdk
-            self.api?.delegate = self   // assign self as delegate
+            sdk.positionDelegate = self // Assign Position Delegate
+            sdk.stateDelegate = self //// Assign State Delegate
             print("SDK initialized successfully")
         } catch {
             self.api = nil
-            print("SDK initialization failed:", error)
+            print("SDK initialization failed:", error.localizedDescription)
             
         }
     }
@@ -107,11 +134,13 @@ class PositionProvider: ObservableObject, PinpointAPIDelegate {
 
 ### Implement delegate stubs for state changes and position changes
 
-```
-  func pinpointAPI(_ api: PinpointSDK.PinpointAPI, didUpdatePosition position: PinpointSDK.LocalPosition) {
+```swift
+// Delegate method for PinpointPositionDelegate
+  func pinpointAPI(_ api: PinpointAPI, didUpdatePosition position: LocalPosition) {
         self.handleNewPosition(position)
     }
     
+// Delegate methods for PinpointStateDelegate
     func pinpointAPI(_ api: PinpointAPI, didChangeBLEState state: BLEState) {
         print(state)
     }
@@ -125,7 +154,7 @@ class PositionProvider: ObservableObject, PinpointAPIDelegate {
     
 ```
 
-#### Listen to @Published position stream (Alternative)
+### Listen to @Published position stream (Alternative)
 
 Altenatively, you can listen to changes within the published variable `api.localPosition`  directly, when using SwiftUI
 
@@ -145,7 +174,7 @@ Altenatively, you can listen to changes within the published variable `api.local
 
 ```
 
-### Connecting to a TRACElet / starting position export
+### Connecting to a TRACElet / starting position export (Recommended)
 
 The connection, setup and position updates can be initiated with as single function call of `startPositionStream()`.
 

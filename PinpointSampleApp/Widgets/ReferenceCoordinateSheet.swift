@@ -34,21 +34,21 @@ struct ReferenceCoordinateSheet: View {
                         Text("Latitude")
                             .frame(width: 100, alignment: .leading)
                         TextField("e.g., 47.123456", text: $latitude)
-                            .keyboardType(.decimalPad)
+                            .keyboardType(.numbersAndPunctuation)
                     }
                     
                     HStack {
                         Text("Longitude")
                             .frame(width: 100, alignment: .leading)
                         TextField("e.g., 8.123456", text: $longitude)
-                            .keyboardType(.decimalPad)
+                            .keyboardType(.numbersAndPunctuation)
                     }
                     
                     HStack {
                         Text("Azimuth")
                             .frame(width: 100, alignment: .leading)
                         TextField("e.g., 90.0", text: $azimuth)
-                            .keyboardType(.decimalPad)
+                            .keyboardType(.numbersAndPunctuation)
                     }
                 } header: {
                     Text("World Coordinate Reference")

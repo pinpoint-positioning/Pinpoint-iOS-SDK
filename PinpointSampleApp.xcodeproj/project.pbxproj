@@ -35,6 +35,7 @@
 		D112270C29B9EF8C00E49993 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D11A4DC02E8D354F00AC2355 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		D11A4DC22E8D35C400AC2355 /* GeneratedBuildInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedBuildInfo.swift; sourceTree = "<group>"; };
+		D1295CBD2F755CA100A11576 /* PinpointSampleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PinpointSampleApp.entitlements; sourceTree = "<group>"; };
 		D145D4122E8409D000699B96 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D145D4192E840B6B00699B96 /* PositionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionProvider.swift; sourceTree = "<group>"; };
 		D19310AC2E9697AD004A07B9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -78,6 +79,7 @@
 		D112270729B9EF8B00E49993 /* PinpointSampleApp */ = {
 			isa = PBXGroup;
 			children = (
+				D1295CBD2F755CA100A11576 /* PinpointSampleApp.entitlements */,
 				D19310AC2E9697AD004A07B9 /* README.md */,
 				D145D4142E840B5000699B96 /* Widgets */,
 				D1A98B5C2C3D6C4D000CB06A /* Models */,
@@ -343,6 +345,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PinpointSampleApp/PinpointSampleApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -358,6 +361,7 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "Access to the camera is needed to scan QR-Codes";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location needed for app to work";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Location needed for app to work";
+				INFOPLIST_KEY_NSNearbyInteractionUsageDescription = "Nearby Interaction required for UWB positioning";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -370,7 +374,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "de.example.demo-app";
+				PRODUCT_BUNDLE_IDENTIFIER = de.pinpoint.iosdksample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -388,6 +392,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PinpointSampleApp/PinpointSampleApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -403,6 +408,7 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "Access to the camera is needed to scan QR-Codes";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location needed for app to work";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Location needed for app to work";
+				INFOPLIST_KEY_NSNearbyInteractionUsageDescription = "Nearby Interaction required for UWB positioning";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -415,7 +421,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "de.example.demo-app";
+				PRODUCT_BUNDLE_IDENTIFIER = de.pinpoint.iosdksample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
