@@ -68,11 +68,12 @@ We strongly recommend to use the included [Sample App]("https://github.com/pinpo
 The usage examples below can be found in `PositionProvider.swift` inside the demo app.
 
 
+
 ### Setting the NIDLTDOA Development Profile
 
 1. Assign the *Nearby Interaction DL-TDoA Capability* to your Bundle Identifier in *AppstoreConnect*.
 
-<img src="images/appstore-connect-profile.png" alt="Integration with Apple Maps" width="400"/>
+<img src="images/appstore-connect-profile.png" alt="Appstore Connect Profile" width="400"/>
 
 2. Add this key to your `.entitlements` file
 
@@ -81,8 +82,10 @@ The usage examples below can be found in `PositionProvider.swift` inside the dem
 	<true/>
 ```
 3. Add NearbyInteraction Capability to your app
-<img src="images/ni-capability.png" alt="Integration with Apple Maps" width="400"/>
+<img src="images/ni-capability.png" alt="NIDLTdoA Capability" width="400"/>
 
+4. It is required to have an iPhone with at least **iOS 26.4**
+5. The iPhone is required to have a working internet connection.
 
 ### Importing the Module
 
@@ -121,13 +124,12 @@ class PositionProvider: ObservableObject,PinpointStateDelegate, PinpointPosition
         do {
             let sdk = try await PinpointAPI(apiKey: "YOUR-API-KEY")
             self.api = sdk
-            sdk.positionDelegate = self // Assign Position Delegate
-            sdk.stateDelegate = self //// Assign State Delegate
+            self.api?.positionDelegate = self   // assign self as delegate
+            self.api?.stateDelegate = self      // assign self as delegate
             print("SDK initialized successfully")
         } catch {
             self.api = nil
-            print("SDK initialization failed:", error.localizedDescription)
-            
+            print("SDK initialization failed:", error)
         }
     }
 ```
@@ -174,23 +176,26 @@ Altenatively, you can listen to changes within the published variable `api.local
 
 ```
 
-### Connecting to a TRACElet / starting position export (Recommended)
+### Starting position stream
 
-The connection, setup and position updates can be initiated with as single function call of `startPositionStream()`.
+The connection, setup and position updates can be initiated with as single function call of `startPositionStream(siteID:UInt32, blob:Data)`.
+
+- `siteID`: The Site ID from your site (shown in EasyPlan)
+- `blob`: A `.bin` file that can be generated from EasyPlan
+
+The blob needs to be converted to `Data`:
+
+e.g.: `blobData = try Data(contentsOf: pathToBinFile)`
+
+In our example app, the blob will be added via a simple file picker.
 
 When the call was successful, you receveive continuous position updates via `didUpdatePosition` delegate method, you implemented before.
 
 ```swift
-    // Start the TRACElet connection flow
-    func startPositionStream() async  {
+    // Start the postion stream
+    func startPositionStream(siteID:UInt32, blob:Data) async  {
         guard let api = self.api else { return }
-        do {
-            try await api.startPositionStream()
-        }
-        catch {
-            // Handle Errors
-            print(error)
-        }
+            await api.startPositionStream(siteId: siteID, blob: blob)
     }
 ```
 
@@ -213,123 +218,6 @@ When the call was successful, you receveive continuous position updates via `did
 ```
 
 
-### Manual connection handling (Not recommended) 
-You can handle the TRACElet connection and setup flow manually by using the methods below.
-Be aware, that this needs more in-depth knowledge and is not actively supported by Pinpoint.
-
-```swift
-    func connectTraceletAndStart() async throws -> Bool {
-        guard isBleReady() else { return false}
-        
-        let devices = try await withCheckedThrowingContinuation { continuation in
-            var hasResumed = false
-            api.scan(timeout: 3.0) { devices in
-                guard !hasResumed else { return }
-                hasResumed = true
-                continuation.resume(returning: devices)
-            }
-        }
-        // The `scan()` function returns a sorted list by RSSI of Pinpoint TRACElets
-        // Usually it is fine to connect to the first one in the list (the only one / closest one)
-        guard let tracelet = devices.first else { return false }
-        // Store connected Tracelet
-        connectedTracelet = tracelet.peripheral
-        
-        let success = try await connectToTraceletAndStartPositioning(tracelet)
-        return success
-    }
-
-    
-    // Convienience function to connect to the TRACElet and start the position stream
-   private func connectToTraceletAndStartPositioning(_ tracelet: DiscoveredTracelet) async throws -> Bool {
-        let success = try await api.connectAndStartPositioning(device: tracelet.peripheral)
-        return success
-    }
-    
-    // Getter function to the check current BLE state
-    func isBleReady() -> Bool {
-        return api.bleState == .BT_OK
-    }
-    
-```
-
-
-*Hint:* The function `connectAndStartPositioning(device: tracelet)` will set up the tracelet with settings, broadcasted by the SATlets.
-This will only work, if you are in a location with a set up Pinpoint UWB network!
-
-
-### Stop the scanning process manually
-
-```swift
-api.stopScan()
-```
-
-### Disconnect TRACElet
-
-```swift
-    func disconnect() {
-        Task {
-            await api.disconnect()
-        }
-    }
-```
-
-
-
-
-This will return you a WGS84 coordinate as `CLLocationCoordinate2D`.
-
-
----
-
-### More Tracelet Commands
-
-Send a "ShowMe" command to a connected tracelet:
-
-```swift
-    func showMe() async -> Bool {
-        if let tracelet = connectedTracelet {
-            let success = await api.showMe(tracelet: tracelet)
-            return success
-        } else {
-            return false
-        }
-    }
-```
-
-Stop UWB-positioning on a connected TRACElet (Turn off UWB Module):
-
-```swift
-// Stop UWB module (while stay connected via BLE)
-let success = api.stopPositioning()
-
-// Start UWB module (while still connected via BLE)
-let success = await.startPositioning()
-```
-
-Set the positioning interval:
-
-```swift
-let success = await api.setMotionCheckInterval(interval: 1) // Interval in n x 250ms, Default: 1 (update every 1 x 250ms)
-```
-
-### Retrieving Tracelet Information
-
-Request the status of a connected TRACElet:
-
-```swift
-if let status = await api.getStatus() {
-    print("Tracelet status: \(status)")
-}
-```
-
-Request the firmware version of a connected TRACElet:
-
-```swift
-if let version = await api.getVersion() {
-    print("Tracelet firmware version: \(version)")
-}
-```
 
 
 ### License 
