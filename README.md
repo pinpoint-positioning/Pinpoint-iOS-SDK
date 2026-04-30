@@ -1,4 +1,19 @@
 # Pinpoint iOS SDK
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Use Cases](#use-cases)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Native UWB on iPhone](#native-uwb-on-iphone)
+- [Using the SDK](#using-the-sdk)
+- [Background positioning with native UWB](#background-positioning-with-native-uwb)
+- [License](#license)
+- [Sample App](https://github.com/pinpoint-positioning/Pinpoint-iOS-SDK/tree/main/PinpointSampleApp) 
+
+
+
 
 ## Introduction
 
@@ -28,6 +43,7 @@ The Pinpoint iOS can be used to integrate our indoor positioning system into you
 * Indoor Positioning for GNSS/GPS denied areas
 * Accuracy of up to 30 cm
 * Simple Integration
+* UWB Background mode support
 
 ---
 
@@ -63,17 +79,18 @@ Make sure to use the corresponding tag (e.g. 12.2.0) when adding this package to
 
 To use the `Pinpoint iOS SDK`  in your iOS project, follow the steps below.
 
-We strongly recommend to use the included [Sample App]("https://github.com/pinpoint-positioning/Pinpoint-iOS-SDK/tree/main/PinpointSampleApp") as implementation reference.
+We strongly recommend to use the included [Sample App](https://github.com/pinpoint-positioning/Pinpoint-iOS-SDK/tree/main/PinpointSampleApp) as implementation reference.
 
 The usage examples below can be found in `PositionProvider.swift` inside the demo app.
 
 
+## Native UWB on iPhone
 
 ### Setting the NIDLTDOA Development Profile
 
 1. Assign the *Nearby Interaction DL-TDoA Capability* to your Bundle Identifier in *AppstoreConnect*.
 
-<img src="images/appstore-connect-profile.png" alt="Appstore Connect Profile" width="400"/>
+<img src="images/appstore-connect-profile.png" alt="App ID Configuration" width="400"/>
 
 2. Add this key to your `.entitlements` file
 
@@ -82,7 +99,7 @@ The usage examples below can be found in `PositionProvider.swift` inside the dem
 	<true/>
 ```
 3. Add NearbyInteraction Capability to your app
-<img src="images/ni-capability.png" alt="NIDLTdoA Capability" width="400"/>
+<img src="images/ni-capability.png" alt="Adding NIDLTDOA Capability" width="400"/>
 
 4. It is required to have an iPhone with at least **iOS 26.4**
 5. The iPhone is required to have a working internet connection.
@@ -99,7 +116,8 @@ The `PinpointApi` class provides various functions to interact with nearby trace
 
 Below are the main functions available for public use:
 
-### Initialize the SDK
+
+## Using the SDK
 
 Initialize the `API` class with your API-Key. 
 The initialization requires to run ansynchronously.
@@ -219,7 +237,32 @@ When the call was successful, you receveive continuous position updates via `did
 
 
 
+### Background positioning with native UWB
+
+The **UWB-session** can be kept alive by using **LiveActivites**. 
+
+Set up a **LiveActivity** as described here:
+
+https://developer.apple.com/documentation/activitykit/displaying-live-data-with-live-activities
+
+You also need to add *Background Modes* capability to your target and check *Uses Nearby Interaction* in:
+ 
+*XCode* -> *Target* -> *Signing and Capabilities* -> *Add capability* -> *Background Modes*.
+
+
+You can find a sample implementation of the **LiveActivity** with continuous background positioning in the [Sample App](https://github.com/pinpoint-positioning/Pinpoint-iOS-SDK/tree/main/PinpointSampleApp) 
+
+
+
+<img src="images/live-activity-dynamic-island.png" alt="Live Activty in Dynamic Island" width="300"/>
+
+*Example of LiveActivity in Dynamic Island*
+
+<img src="images/live-activity-lockscreen.png" alt="Live Activty in Lockscreen" width="300"/>
+
+*Example of LiveActivity in Lockscreen*
+
 
 ### License 
 
-This package is licensed under a proprietary license. Please refer to the [LICENSE]("https://github.com/pinpoint-positioning/Pinpoint-iOS-SDK/blob/main/LICENSE") file for more details.
+This package is licensed under a proprietary license. Please refer to the [LICENSE](https://github.com/pinpoint-positioning/Pinpoint-iOS-SDK/blob/main/LICENSE) file for more details.

@@ -13,22 +13,25 @@ import CoreLocation
 
 class PositionProvider: ObservableObject, PinpointStateDelegate, PinpointPositionDelegate {
 
-    
-    @Published private(set) var api: PinpointAPI?
-    private var connectedTracelet: CBPeripheral?
-    
+
     // Published Variables
+    @Published private(set) var api: PinpointAPI?
     @Published var localPosition: LocalPosition?
     @Published var worldPosition: CLLocationCoordinate2D?
     @Published var connectionState: ConnectionState = .DISCONNECTED
     @Published var initializationError: String? = nil
+    
+    // Private vars
+    private let widgets = WidgetManager()
+    private var connectedTracelet: CBPeripheral?
+    
     
     // Example WGS84 references
     // Used for converting local coordinates to World Coordinates (WGS84)
     var REF_LAT:Double?
     var REF_LON:Double?
     var REF_AZI:Double?
-    
+   
         
     init() { }
     
@@ -57,7 +60,9 @@ class PositionProvider: ObservableObject, PinpointStateDelegate, PinpointPositio
     // Start the postion stream
     func startPositionStream(siteID:UInt32, blob:Data) async  {
         guard let api = self.api else { return }
-            await api.startPositionStream(siteId: siteID, blob: blob)
+        await api.startPositionStream(siteId: siteID, blob: blob)
+        widgets.startLiveActivity(position: localPosition)
+        
     }
     
     
@@ -75,13 +80,18 @@ class PositionProvider: ObservableObject, PinpointStateDelegate, PinpointPositio
     
     // Stops the Position Stream
     func stopPositionStream() async {
-            await api?.stopPositionStream()
+        widgets.endLiveActivity()
+        await api?.stopPositionStream()
+            
     }
     
     private func handleNewPosition(_ position: LocalPosition?) {
         DispatchQueue.main.async {
-            self.localPosition = position
-            self.generateWorldPosition()
+            if let p = position {
+                self.localPosition = p
+                self.generateWorldPosition()
+                self.widgets.updateLiveActivityScore(position: p)
+            }
         }
 
     }

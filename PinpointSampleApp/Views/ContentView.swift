@@ -36,10 +36,6 @@ struct ContentView: View {
         return "n/a"
     }
 
-    private var localZ: String {
-        if let z = positionProvider.localPosition?.z { return String(format: "%.2f", z) }
-        return "n/a"
-    }
 
     private var localAcc: String {
         if let acc = positionProvider.localPosition?.accuracy { return String(format: "%.2f", acc) }
@@ -118,7 +114,6 @@ struct ContentView: View {
                     HStack(spacing: 20) {
                         CoordinateView(label: "X", value: localX, color: .red)
                         CoordinateView(label: "Y", value: localY, color: .green)
-                        CoordinateView(label: "Z", value: localZ, color: .blue)
                     }
 
                     HStack {

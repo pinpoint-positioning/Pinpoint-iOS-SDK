@@ -7,14 +7,13 @@
 
 import SwiftUI
 import Foundation
-import PinpointSDKFramework
 
 struct VersionLabel: View {
     var body: some View {
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
            let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
            
-            Text("v\(BuildInfo.tag) (\(BuildInfo.commit)) • \(version) (\(build)) [\(PinpointAPI.version)]")
+            Text("v\(BuildInfo.tag) (\(BuildInfo.commit)) • \(version) (\(build))")
                 .font(.footnote)
                 .foregroundColor(.secondary)
         } else {

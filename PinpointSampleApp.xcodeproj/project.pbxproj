@@ -14,9 +14,35 @@
 		D145D4132E8409D500699B96 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D145D4122E8409D000699B96 /* ContentView.swift */; };
 		D145D41A2E840B7100699B96 /* PositionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D145D4192E840B6B00699B96 /* PositionProvider.swift */; };
 		D19310AD2E9697BA004A07B9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D19310AC2E9697AD004A07B9 /* README.md */; };
+		D1AC66A82F9F933E002B586F /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1AC66A72F9F933E002B586F /* WidgetKit.framework */; };
+		D1AC66AA2F9F933E002B586F /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1AC66A92F9F933E002B586F /* SwiftUI.framework */; };
+		D1AC66B72F9F933F002B586F /* PinpointWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D1AC66A52F9F933E002B586F /* PinpointWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D1AC66E12F9F963C002B586F /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AC66E02F9F963C002B586F /* WidgetManager.swift */; };
+		D1AC68152FA099AD002B586F /* PinpointSDK in Frameworks */ = {isa = PBXBuildFile; productRef = D1AC68142FA099AD002B586F /* PinpointSDK */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		D1AC66B52F9F933F002B586F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D11226FD29B9EF8B00E49993 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D1AC66A42F9F933E002B586F;
+			remoteInfo = PinpointWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		D1AC66B82F9F933F002B586F /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D1AC66B72F9F933F002B586F /* PinpointWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D1FE06EB2EB259DF00E6783C /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -41,10 +67,33 @@
 		D19310AC2E9697AD004A07B9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D19310B82E9698D8004A07B9 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		D19310B92E9698D8004A07B9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D1AC66A52F9F933E002B586F /* PinpointWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PinpointWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1AC66A72F9F933E002B586F /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		D1AC66A92F9F933E002B586F /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		D1AC66BD2F9F938E002B586F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D1AC66E02F9F963C002B586F /* WidgetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D1AC66BB2F9F933F002B586F /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = D1AC66A42F9F933E002B586F /* PinpointWidgetExtension */;
+		};
+		D1AC66E52F9F9680002B586F /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				PinpointWidgetAttributes.swift,
+			);
+			target = D112270429B9EF8B00E49993 /* PinpointSampleApp */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		D145D4142E840B5000699B96 /* Widgets */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Widgets; sourceTree = "<group>"; };
+		D145D4142E840B5000699B96 /* Universal Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Universal Views"; sourceTree = "<group>"; };
+		D1AC66AB2F9F933E002B586F /* PinpointWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (D1AC66E52F9F9680002B586F /* PBXFileSystemSynchronizedBuildFileExceptionSet */, D1AC66BB2F9F933F002B586F /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PinpointWidget; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +101,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1AC68152FA099AD002B586F /* PinpointSDK in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1AC66A22F9F933E002B586F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D1AC66AA2F9F933E002B586F /* SwiftUI.framework in Frameworks */,
+				D1AC66A82F9F933E002B586F /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				D112270729B9EF8B00E49993 /* PinpointSampleApp */,
+				D1AC66A62F9F933E002B586F /* Frameworks */,
 				D112270629B9EF8B00E49993 /* Products */,
 				D19310B82E9698D8004A07B9 /* LICENSE */,
 				D19310B92E9698D8004A07B9 /* README.md */,
@@ -72,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				D112270529B9EF8B00E49993 /* PinpointSampleApp.app */,
+				D1AC66A52F9F933E002B586F /* PinpointWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -79,14 +140,16 @@
 		D112270729B9EF8B00E49993 /* PinpointSampleApp */ = {
 			isa = PBXGroup;
 			children = (
+				D1AC66BD2F9F938E002B586F /* Info.plist */,
 				D1295CBD2F755CA100A11576 /* PinpointSampleApp.entitlements */,
 				D19310AC2E9697AD004A07B9 /* README.md */,
-				D145D4142E840B5000699B96 /* Widgets */,
+				D145D4142E840B5000699B96 /* Universal Views */,
 				D1A98B5C2C3D6C4D000CB06A /* Models */,
 				D1569D8F29BA214F00D0E578 /* Views */,
 				D1569D9029BA216100D0E578 /* Controller */,
 				D112270829B9EF8B00E49993 /* PinpointSampleAppApp.swift */,
 				D112270C29B9EF8C00E49993 /* Assets.xcassets */,
+				D1AC66AB2F9F933E002B586F /* PinpointWidget */,
 			);
 			path = PinpointSampleApp;
 			sourceTree = "<group>";
@@ -103,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				D145D4192E840B6B00699B96 /* PositionProvider.swift */,
+				D1AC66E02F9F963C002B586F /* WidgetManager.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -114,6 +178,15 @@
 				D11A4DC22E8D35C400AC2355 /* GeneratedBuildInfo.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		D1AC66A62F9F933E002B586F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D1AC66A72F9F933E002B586F /* WidgetKit.framework */,
+				D1AC66A92F9F933E002B586F /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -128,20 +201,45 @@
 				D112270229B9EF8B00E49993 /* Frameworks */,
 				D112270329B9EF8B00E49993 /* Resources */,
 				D1FE06EB2EB259DF00E6783C /* Embed Frameworks */,
+				D1AC66B82F9F933F002B586F /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D1AC66B62F9F933F002B586F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D145D4142E840B5000699B96 /* Universal Views */,
+			);
+			name = PinpointSampleApp;
+			packageProductDependencies = (
+				D1AC68142FA099AD002B586F /* PinpointSDK */,
+			);
+			productName = PinpointSampleApp;
+			productReference = D112270529B9EF8B00E49993 /* PinpointSampleApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D1AC66A42F9F933E002B586F /* PinpointWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D1AC66BC2F9F933F002B586F /* Build configuration list for PBXNativeTarget "PinpointWidgetExtension" */;
+			buildPhases = (
+				D1AC66A12F9F933E002B586F /* Sources */,
+				D1AC66A22F9F933E002B586F /* Frameworks */,
+				D1AC66A32F9F933E002B586F /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				D145D4142E840B5000699B96 /* Widgets */,
+				D1AC66AB2F9F933E002B586F /* PinpointWidget */,
 			);
-			name = PinpointSampleApp;
+			name = PinpointWidgetExtension;
 			packageProductDependencies = (
 			);
-			productName = PinpointSampleApp;
-			productReference = D112270529B9EF8B00E49993 /* PinpointSampleApp.app */;
-			productType = "com.apple.product-type.application";
+			productName = PinpointWidgetExtension;
+			productReference = D1AC66A52F9F933E002B586F /* PinpointWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -150,11 +248,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1420;
+				LastSwiftUpdateCheck = 2620;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					D112270429B9EF8B00E49993 = {
 						CreatedOnToolsVersion = 14.2;
+					};
+					D1AC66A42F9F933E002B586F = {
+						CreatedOnToolsVersion = 26.2;
 					};
 				};
 			};
@@ -168,12 +269,14 @@
 			);
 			mainGroup = D11226FC29B9EF8B00E49993;
 			packageReferences = (
+				D1AC68132FA099AD002B586F /* XCRemoteSwiftPackageReference "Pinpoint-iOS-SDK" */,
 			);
 			productRefGroup = D112270629B9EF8B00E49993 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				D112270429B9EF8B00E49993 /* PinpointSampleApp */,
+				D1AC66A42F9F933E002B586F /* PinpointWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -185,6 +288,13 @@
 			files = (
 				D19310AD2E9697BA004A07B9 /* README.md in Resources */,
 				D112270D29B9EF8C00E49993 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1AC66A32F9F933E002B586F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D145D41A2E840B7100699B96 /* PositionProvider.swift in Sources */,
+				D1AC66E12F9F963C002B586F /* WidgetManager.swift in Sources */,
 				D145D4132E8409D500699B96 /* ContentView.swift in Sources */,
 				D11A4DC12E8D355100AC2355 /* Test.swift in Sources */,
 				D112270929B9EF8B00E49993 /* PinpointSampleAppApp.swift in Sources */,
@@ -223,7 +334,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D1AC66A12F9F933E002B586F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D1AC66B62F9F933F002B586F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D1AC66A42F9F933E002B586F /* PinpointWidgetExtension */;
+			targetProxy = D1AC66B52F9F933F002B586F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		D112271629B9EF8C00E49993 /* Debug */ = {
@@ -347,13 +473,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PinpointSampleApp/PinpointSampleApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "";
+				INFOPLIST_FILE = PinpointSampleApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Pinpoint Demo";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Bluetooth is needed to connect to the tracelet";
@@ -362,6 +488,8 @@
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location needed for app to work";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Location needed for app to work";
 				INFOPLIST_KEY_NSNearbyInteractionUsageDescription = "Nearby Interaction required for UWB positioning";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -394,13 +522,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PinpointSampleApp/PinpointSampleApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "";
+				INFOPLIST_FILE = PinpointSampleApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Pinpoint Demo";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Bluetooth is needed to connect to the tracelet";
@@ -409,6 +537,8 @@
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location needed for app to work";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Location needed for app to work";
 				INFOPLIST_KEY_NSNearbyInteractionUsageDescription = "Nearby Interaction required for UWB positioning";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -429,6 +559,81 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D1AC66B92F9F933F002B586F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PinpointSampleApp/PinpointWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PinpointWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = de.pinpoint.iosdksample.PinpointWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D1AC66BA2F9F933F002B586F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PinpointSampleApp/PinpointWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PinpointWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = de.pinpoint.iosdksample.PinpointWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -455,7 +660,35 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		D1AC66BC2F9F933F002B586F /* Build configuration list for PBXNativeTarget "PinpointWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1AC66B92F9F933F002B586F /* Debug */,
+				D1AC66BA2F9F933F002B586F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D1AC68132FA099AD002B586F /* XCRemoteSwiftPackageReference "Pinpoint-iOS-SDK" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pinpoint-positioning/Pinpoint-iOS-SDK";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.2.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D1AC68142FA099AD002B586F /* PinpointSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1AC68132FA099AD002B586F /* XCRemoteSwiftPackageReference "Pinpoint-iOS-SDK" */;
+			productName = PinpointSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D11226FD29B9EF8B00E49993 /* Project object */;
 }
