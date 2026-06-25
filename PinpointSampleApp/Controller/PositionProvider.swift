@@ -13,27 +13,21 @@ import CoreLocation
 
 class PositionProvider: ObservableObject, PinpointStateDelegate, PinpointPositionDelegate {
 
-
     // Published Variables
     @Published private(set) var api: PinpointAPI?
     @Published var localPosition: LocalPosition?
-    @Published var worldPosition: CLLocationCoordinate2D?
     @Published var connectionState: ConnectionState = .DISCONNECTED
     @Published var initializationError: String? = nil
     
     // Private vars
     private let widgets = WidgetManager()
     private var connectedTracelet: CBPeripheral?
+    private var locationManager:CLLocationManager
     
-    
-    // Example WGS84 references
-    // Used for converting local coordinates to World Coordinates (WGS84)
-    var REF_LAT:Double?
-    var REF_LON:Double?
-    var REF_AZI:Double?
    
-        
-    init() { }
+    init() {
+        self.locationManager = CLLocationManager()
+    }
     
     func setup() async {
         await initializeSDK()
@@ -58,25 +52,33 @@ class PositionProvider: ObservableObject, PinpointStateDelegate, PinpointPositio
     
     
     // Start the postion stream
-    func startPositionStream(siteID:UInt32, blob:Data) async  {
+    // Request permissions according Swift docs: https://developer.apple.com/documentation/nearbyinteraction/dl-tdoa-ranging
+    
+    func startPositionStream(siteID:UInt32, blob:Data, forceTracelet:Bool) async  {
+        locationManager.requestWhenInUseAuthorization()
+        let authStatus = locationManager.authorizationStatus
+        guard authStatus == .authorizedWhenInUse || authStatus == .authorizedAlways else {
+            print("Location authorization required for DL-TDOA.")
+            return
+        }
         guard let api = self.api else { return }
-        await api.startPositionStream(siteId: siteID, blob: blob)
+        await api.startPositionStream(siteId: siteID, forceTracelet:forceTracelet, blob: blob)
         widgets.startLiveActivity(position: localPosition)
         
+
     }
     
     
     
     // Lights up the LED on connected TRACElets for identification
-    // Removed for native positioning example
     
-//    func showMe() async -> Bool {
-//        guard let api = self.api else {
-//            return false
-//        }
-//            let success = await api.showMe()
-//            return success
-//    }
+    func showMe() async -> Bool {
+        guard let api = self.api else {
+            return false
+        }
+            let success = await api.showMe()
+            return success
+    }
     
     // Stops the Position Stream
     func stopPositionStream() async {
@@ -89,27 +91,13 @@ class PositionProvider: ObservableObject, PinpointStateDelegate, PinpointPositio
         DispatchQueue.main.async {
             if let p = position {
                 self.localPosition = p
-                self.generateWorldPosition()
                 self.widgets.updateLiveActivityScore(position: p)
             }
         }
 
     }
     
-    
-    
-    // Converts local positions to WGS84 Positions
-    func generateWorldPosition() {
-        if let localPos = self.localPosition,
-           let lat = REF_LAT,
-           let lon = REF_LON,
-           let azi = REF_AZI {
-            
-            let uwbPosition = CGPoint(x: localPos.x, y: localPos.y)
-            self.worldPosition = WGS84Position(refLatitude: lat, refLongitude: lon, refAzimuth: azi)
-                .getWGS84Position(uwbPosition: uwbPosition)
-        }
-    }
+
     
     
     //MARK: - Delegate Implementation
@@ -125,8 +113,13 @@ class PositionProvider: ObservableObject, PinpointStateDelegate, PinpointPositio
     
     func pinpointAPI(_ api: PinpointAPI, didChangeConnectionState state: ConnectionState) {
         DispatchQueue.main.async {
+            print("new state \(state)")
             self.connectionState = state
         }
+    }
+    
+    func pinpointAPI(_ api: PinpointSDKFramework.PinpointAPI, didChangeLicenseState expiry: Date) {
+        print("License expires on: \(expiry.formatted())")
     }
     
 }

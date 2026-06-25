@@ -34,6 +34,7 @@ class WidgetManager {
                 pushType: nil,
             )
                 
+            print("Started:", activity.id)
            
         } catch {
             print("Error:", error)
@@ -59,7 +60,6 @@ func updateLiveActivityScore(position: LocalPosition) {
 func endLiveActivity() {
     Task {
         let activities = Activity<PinpointWidgetAttributes>.activities
-
         for activity in activities {
             await activity.end(
                 .init(

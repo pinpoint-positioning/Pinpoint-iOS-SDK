@@ -30,9 +30,9 @@ Tap **Start Positioning**.
 
 You should see updating local positions as well as WGS84 coordinates
 
-**Start Positioning* will also start a LiveActivity. You can put the app in the background and lock the screen now. The positioning will continue
+**Start Positioning** will also start a LiveActivity. You can put the app in the background and lock the screen now. The positioning will continue
 
-**Stop Positioning** will stop the internal UWB chip or disconnect from TRACElet
+**Stop Positioning** will stop the internal UWB chip or disconnect from TRACElet. This will also stop the LiveActivity.
 
 
 ### 3. View Your Position
@@ -49,7 +49,7 @@ If connected, tap **Show Me** to trigger the TRACElet’s “show me” action -
 
 | Button | Action |
 |--------|---------|
-| **Start Positioning / Stop Positioning** | Connects or disconnects from the TRACElet |
+| **Start Positioning / Stop Positioning** | Starts the Position Stream |
 | **Show Me** | Requests the TRACElet to indicate itself (lighting up an LED) |
 
 

@@ -11,6 +11,7 @@
 		D112270D29B9EF8C00E49993 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D112270C29B9EF8C00E49993 /* Assets.xcassets */; };
 		D11A4DC12E8D355100AC2355 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11A4DC02E8D354F00AC2355 /* Test.swift */; };
 		D11A4DC32E8D35C400AC2355 /* GeneratedBuildInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11A4DC22E8D35C400AC2355 /* GeneratedBuildInfo.swift */; };
+		D13CE10F2FED2F50002E3A2B /* PinpointSDK in Frameworks */ = {isa = PBXBuildFile; productRef = D13CE10E2FED2F50002E3A2B /* PinpointSDK */; };
 		D145D4132E8409D500699B96 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D145D4122E8409D000699B96 /* ContentView.swift */; };
 		D145D41A2E840B7100699B96 /* PositionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D145D4192E840B6B00699B96 /* PositionProvider.swift */; };
 		D19310AD2E9697BA004A07B9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D19310AC2E9697AD004A07B9 /* README.md */; };
@@ -18,7 +19,6 @@
 		D1AC66AA2F9F933E002B586F /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1AC66A92F9F933E002B586F /* SwiftUI.framework */; };
 		D1AC66B72F9F933F002B586F /* PinpointWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D1AC66A52F9F933E002B586F /* PinpointWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D1AC66E12F9F963C002B586F /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AC66E02F9F963C002B586F /* WidgetManager.swift */; };
-		D1AC68152FA099AD002B586F /* PinpointSDK in Frameworks */ = {isa = PBXBuildFile; productRef = D1AC68142FA099AD002B586F /* PinpointSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,7 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1AC68152FA099AD002B586F /* PinpointSDK in Frameworks */,
+				D13CE10F2FED2F50002E3A2B /* PinpointSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,7 +213,7 @@
 			);
 			name = PinpointSampleApp;
 			packageProductDependencies = (
-				D1AC68142FA099AD002B586F /* PinpointSDK */,
+				D13CE10E2FED2F50002E3A2B /* PinpointSDK */,
 			);
 			productName = PinpointSampleApp;
 			productReference = D112270529B9EF8B00E49993 /* PinpointSampleApp.app */;
@@ -269,7 +269,7 @@
 			);
 			mainGroup = D11226FC29B9EF8B00E49993;
 			packageReferences = (
-				D1AC68132FA099AD002B586F /* XCRemoteSwiftPackageReference "Pinpoint-iOS-SDK" */,
+				D13CE10D2FED2F50002E3A2B /* XCRemoteSwiftPackageReference "pinpointsdk" */,
 			);
 			productRefGroup = D112270629B9EF8B00E49993 /* Products */;
 			projectDirPath = "";
@@ -473,10 +473,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PinpointSampleApp/PinpointSampleApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = H457FUNAGN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PinpointSampleApp/Info.plist;
@@ -485,8 +485,10 @@
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Bluetooth is needed to connect to the tracelet";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth is needed to connect to the tracelet";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Access to the camera is needed to scan QR-Codes";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location needed for app to work";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location needed to provide a GPS positiong";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Location needed for app to work";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location needed for app to work";
 				INFOPLIST_KEY_NSNearbyInteractionUsageDescription = "Nearby Interaction required for UWB positioning";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
@@ -496,7 +498,7 @@
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -522,10 +524,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PinpointSampleApp/PinpointSampleApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = H457FUNAGN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PinpointSampleApp/Info.plist;
@@ -534,8 +536,10 @@
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Bluetooth is needed to connect to the tracelet";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth is needed to connect to the tracelet";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Access to the camera is needed to scan QR-Codes";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location needed for app to work";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location needed to provide a GPS positiong";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Location needed for app to work";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location needed for app to work";
 				INFOPLIST_KEY_NSNearbyInteractionUsageDescription = "Nearby Interaction required for UWB positioning";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
@@ -545,7 +549,7 @@
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -571,16 +575,16 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = H457FUNAGN;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PinpointSampleApp/PinpointWidget/Info.plist;
+				INFOPLIST_FILE = PinpointWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PinpointWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -609,16 +613,16 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = H457FUNAGN;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PinpointSampleApp/PinpointWidget/Info.plist;
+				INFOPLIST_FILE = PinpointWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PinpointWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -672,20 +676,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		D1AC68132FA099AD002B586F /* XCRemoteSwiftPackageReference "Pinpoint-iOS-SDK" */ = {
+		D13CE10D2FED2F50002E3A2B /* XCRemoteSwiftPackageReference "pinpointsdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/pinpoint-positioning/Pinpoint-iOS-SDK";
+			repositoryURL = pinpoint.pinpointsdk;
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 12.2.4;
+				minimumVersion = 15.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D1AC68142FA099AD002B586F /* PinpointSDK */ = {
+		D13CE10E2FED2F50002E3A2B /* PinpointSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D1AC68132FA099AD002B586F /* XCRemoteSwiftPackageReference "Pinpoint-iOS-SDK" */;
+			package = D13CE10D2FED2F50002E3A2B /* XCRemoteSwiftPackageReference "pinpointsdk" */;
 			productName = PinpointSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
