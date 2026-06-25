@@ -11,7 +11,6 @@
 		D112270D29B9EF8C00E49993 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D112270C29B9EF8C00E49993 /* Assets.xcassets */; };
 		D11A4DC12E8D355100AC2355 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11A4DC02E8D354F00AC2355 /* Test.swift */; };
 		D11A4DC32E8D35C400AC2355 /* GeneratedBuildInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11A4DC22E8D35C400AC2355 /* GeneratedBuildInfo.swift */; };
-		D13CE10F2FED2F50002E3A2B /* PinpointSDK in Frameworks */ = {isa = PBXBuildFile; productRef = D13CE10E2FED2F50002E3A2B /* PinpointSDK */; };
 		D145D4132E8409D500699B96 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D145D4122E8409D000699B96 /* ContentView.swift */; };
 		D145D41A2E840B7100699B96 /* PositionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D145D4192E840B6B00699B96 /* PositionProvider.swift */; };
 		D19310AD2E9697BA004A07B9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D19310AC2E9697AD004A07B9 /* README.md */; };
@@ -101,7 +100,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D13CE10F2FED2F50002E3A2B /* PinpointSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,7 +211,6 @@
 			);
 			name = PinpointSampleApp;
 			packageProductDependencies = (
-				D13CE10E2FED2F50002E3A2B /* PinpointSDK */,
 			);
 			productName = PinpointSampleApp;
 			productReference = D112270529B9EF8B00E49993 /* PinpointSampleApp.app */;
@@ -269,7 +266,6 @@
 			);
 			mainGroup = D11226FC29B9EF8B00E49993;
 			packageReferences = (
-				D13CE10D2FED2F50002E3A2B /* XCRemoteSwiftPackageReference "pinpointsdk" */,
 			);
 			productRefGroup = D112270629B9EF8B00E49993 /* Products */;
 			projectDirPath = "";
@@ -674,25 +670,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		D13CE10D2FED2F50002E3A2B /* XCRemoteSwiftPackageReference "pinpointsdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = pinpoint.pinpointsdk;
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 15.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		D13CE10E2FED2F50002E3A2B /* PinpointSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D13CE10D2FED2F50002E3A2B /* XCRemoteSwiftPackageReference "pinpointsdk" */;
-			productName = PinpointSDK;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D11226FD29B9EF8B00E49993 /* Project object */;
 }
