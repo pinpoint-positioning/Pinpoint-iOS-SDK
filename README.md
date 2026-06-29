@@ -91,9 +91,12 @@ Enter your Pinpoint repository password when prompted
 
 
 ### Versioning
-This package highly depends in the Pinpoint Hardware you are using.
+Set the *Dependency Rule* to *Exact Version*.
 
-Make sure to use the corresponding tag (e.g. 15.0.0) when adding this package to your project,
+To update the SDK, bump the version number to the latest, released Pinpoint SDK version.
+
+<img src="images/dependency-versioning.png" alt="Routing Solution" width="600"/> 
+
 
 
 ## Getting Started
