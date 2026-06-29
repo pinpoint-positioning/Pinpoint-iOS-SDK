@@ -51,6 +51,9 @@ To ensure optimal performance, confirm that your hardware is correctly installed
 
 ## Installation
 
+> **Important** The Pinpoint iOS SDK requires an iPhone with **iOS 27beta** as well as **XCode27**.
+Make sure your MacOS is at leat **macOS 26.5** in order to run the latest **XCode27 beta**.
+
 To integrate the `Pinpoint iOS SDK` add the repo as a swift package dependency to you project using the Swift Package Manager. 
 This requires a setup of a custom registry and your access credentials for the Pinpoint SDK repository. 
 
@@ -90,7 +93,7 @@ Enter your Pinpoint repository password when prompted
 ### Versioning
 This package highly depends in the Pinpoint Hardware you are using.
 
-Make sure to use the corresponding tag (e.g. 12.2.5) when adding this package to your project,
+Make sure to use the corresponding tag (e.g. 15.0.0) when adding this package to your project,
 
 
 ## Getting Started
@@ -100,23 +103,6 @@ To use the `Pinpoint iOS SDK`  in your iOS project, follow the steps below.
 We strongly recommend to use the included [Sample App]("https://github.com/pinpoint-positioning/Pinpoint-iOS-SDK/tree/main/PinpointSampleApp") as implementation reference.
 
 The usage examples below can be found in `PositionProvider.swift` inside the demo app.
-
-
-
-### Setting up NIDLTDOA
-1. If you used the DL-TdoA features in iOS 26.x before, then remove the old entitlement
-
-```swift
-apple.developer.nearbyinteraction.dltdoa
-```
-If you never used the feature before, you can ignore this step.
-
-2. Create a `CLLocationManager` and request permisson for Location usage. This is a new requirement since `iOS 27 beta` when using NIDLTDOA.
-You find more infos in the developer docs: [https://developer.apple.com/documentation/nearbyinteraction/dl-tdoa-ranging]("https://developer.apple.com/documentation/nearbyinteraction/dl-tdoa-ranging")
-
-3. It is required to have an iPhone with at least **iOS 27 beta**
-
-4. The iPhone is required to have a working internet connection.
 
 
 ### Importing the Module
