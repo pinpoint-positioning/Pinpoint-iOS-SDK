@@ -11,8 +11,6 @@ import UniformTypeIdentifiers
 
 struct ContentView: View {
     @ObservedObject var positionProvider = PositionProvider()
-    @State var isConnecting = false
-    @State var showReferenceSheet = false
     @State var showFilePicker = false
     @State var showConfigSheet = false
     @State var siteIdInput: String = ""
@@ -20,6 +18,7 @@ struct ContentView: View {
     @State var selectedFileName: String? = nil
     @State var showNoBlobAlert = false
     @State var showLicenseErrorAlert = false
+    @State var forceTracelet: Bool = false
 
     private var hasLicenseError: Bool {
         positionProvider.initializationError != nil
@@ -44,11 +43,11 @@ struct ContentView: View {
 
     // World Coordinates to display
     private var wgs84Lat: String {
-        if let lat = positionProvider.worldPosition?.latitude { return "\(lat)" }
+        if let lat = positionProvider.localPosition?.lat { return "\(lat)" }
         return "n/a"
     }
     private var wgs84Lon: String {
-        if let lon = positionProvider.worldPosition?.longitude { return "\(lon)" }
+        if let lon = positionProvider.localPosition?.lon { return "\(lon)" }
         return "n/a"
     }
 
@@ -63,23 +62,23 @@ struct ContentView: View {
                 endPoint: .bottomTrailing
             )
             .ignoresSafeArea()
-
+            
             VStack(spacing: 24) {
-
-                // ── Header (single line) ──────────────────────────────
+                
+                // ── Header
                 HStack(spacing: 10) {
                     Image("pinpoint-circle")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 28, height: 28)
-
+                    
                     Text("PinpointSDK Demo")
                         .font(.headline)
                         .fontWeight(.semibold)
                         .foregroundColor(.primary)
-
+                    
                     Spacer()
-
+                    
                     // License status pill
                     if hasLicenseError {
                         Label("No License", systemImage: "lock.fill")
@@ -92,8 +91,8 @@ struct ContentView: View {
                     }
                 }
                 .padding(.top, 20)
-
-                // ── Coordinates Card ──────────────────────────────────
+                
+                // ── Coordinates Card
                 VStack(spacing: 16) {
                     HStack {
                         Image(systemName: "mappin.and.ellipse")
@@ -103,19 +102,19 @@ struct ContentView: View {
                             .foregroundColor(.primary)
                         Spacer()
                         Circle()
-                            .fill(isConnected() ? Color.green : Color.red)
+                            .fill(isPositioning() ? Color.green : Color.red)
                             .frame(width: 12, height: 12)
                             .overlay(
                                 Circle()
-                                    .fill(isConnected() ? Color.green.opacity(0.3) : Color.red.opacity(0.3))
+                                    .fill(isPositioning() ? Color.green.opacity(0.3) : Color.red.opacity(0.3))
                             )
                     }
-
+                    
                     HStack(spacing: 20) {
                         CoordinateView(label: "X", value: localX, color: .red)
                         CoordinateView(label: "Y", value: localY, color: .green)
                     }
-
+                    
                     HStack {
                         Image(systemName: "scope")
                             .foregroundColor(.orange)
@@ -135,8 +134,8 @@ struct ContentView: View {
                 )
                 .opacity(hasLicenseError ? 0.4 : 1)
                 .allowsHitTesting(!hasLicenseError)
-
-                // ── WGS84 Coordinates Card ────────────────────────────
+                
+                // ── WGS84 Coordinates Card
                 VStack(spacing: 16) {
                     HStack {
                         Image(systemName: "globe")
@@ -145,13 +144,9 @@ struct ContentView: View {
                             .fontWeight(.semibold)
                             .foregroundColor(.primary)
                         Spacer()
-                        Button(action: { showReferenceSheet = true }) {
-                            Image(systemName: "gearshape.fill")
-                                .foregroundColor(.blue)
-                                .font(.system(size: 16, weight: .medium))
-                        }
+                        
                     }
-
+                    
                     VStack(spacing: 12) {
                         HStack {
                             Text("Latitude:")
@@ -179,23 +174,35 @@ struct ContentView: View {
                 )
                 .opacity(hasLicenseError ? 0.4 : 1)
                 .allowsHitTesting(!hasLicenseError)
-
-                // ── Buttons Section ───────────────────────────────────
+                
+                // ── Buttons Section
                 VStack(spacing: 16) {
+
+                    VStack {
+                        Toggle("Force TRACElet", isOn: $forceTracelet)
+                            .font(.headline)
+
+                        Text("Use a TRACElet connection via BLE, even when native UWB support is available on the iPhone")
+                            .font(.caption)
+                    }
+                    .padding()
+                    .background(.gray.opacity(0.2))
+                    .cornerRadius(8)
+
                     Button(action: {
-                        if isConnected() {
+                        if isPositioning() {
                             Task { await stopPositionStream() }
                         } else {
                             showConfigSheet = true
                         }
                     }) {
                         HStack {
-                            if isConnecting {
+                            if isConnecting() {
                                 ProgressView()
                             } else {
-                                Image(systemName: isConnected() ? "stop.fill" : "location.fill")
+                                Image(systemName: isPositioning() ? "stop.fill" : "location.fill")
                                     .font(.system(size: 16, weight: .semibold))
-                                Text(isConnected() ? "Disconnect" : "Start Positioning")
+                                Text(isPositioning() ? "Disconnect" : "Start Positioning")
                                     .font(.headline)
                                     .fontWeight(.semibold)
                             }
@@ -205,24 +212,55 @@ struct ContentView: View {
                         .frame(height: 56)
                         .background(
                             LinearGradient(
-                                gradient: Gradient(colors: isConnected()
-                                    ? [Color.red.opacity(0.8), Color.red]
-                                    : [Color.blue.opacity(0.8), Color.blue]
+                                gradient: Gradient(
+                                    colors: isPositioning()
+                                        ? [Color.red.opacity(0.8), Color.red]
+                                        : [Color.blue.opacity(0.8), Color.blue]
                                 ),
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )
                         )
                         .cornerRadius(16)
-                        .shadow(color: (isConnected() ? Color.red : Color.blue).opacity(0.3), radius: 8, x: 0, y: 4)
+                        .shadow(
+                            color: (isPositioning() ? Color.red : Color.blue).opacity(0.3),
+                            radius: 8,
+                            x: 0,
+                            y: 4
+                        )
                     }
-                    .disabled(isConnecting || hasLicenseError)
+                    .disabled(isConnecting() || hasLicenseError)
                     .opacity(hasLicenseError ? 0.4 : 1)
 
-                   // FootnoteView("Hold a TRACElet close to your phone, when tapping on Start Positioning", icon: "info.circle")
+                    if isPositioning() && forceTracelet {
+                        Button(action: {
+                            Task { await positionProvider.showMe() }
+                        }) {
+                            HStack {
+                                Image(systemName: "eye.fill")
+                                    .font(.system(size: 16, weight: .semibold))
+                                Text("Show Me")
+                                    .font(.headline)
+                                    .fontWeight(.semibold)
+                            }
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 56)
+                            .background(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [Color.orange.opacity(0.8), Color.orange]),
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .cornerRadius(16)
+                            .shadow(color: Color.orange.opacity(0.3), radius: 8, x: 0, y: 4)
+                        }
+                        .disabled(hasLicenseError)
+                        .opacity(hasLicenseError ? 0.4 : 1)
+                    }
                 }
                 .opacity(hasLicenseError ? 0.4 : 1)
-                .allowsHitTesting(!hasLicenseError)
 
                 Spacer()
                 VersionLabel()
@@ -249,9 +287,7 @@ struct ContentView: View {
                 Task { await startPositionStream() }
             }
         }
-        .sheet(isPresented: $showReferenceSheet) {
-            ReferenceCoordinateSheet(onSave: setWorldCoordinateReference)
-        }
+
         .alert("Blob Required", isPresented: $showNoBlobAlert) {
             Button("Select File") { showFilePicker = true }
             Button("Cancel", role: .cancel) { }
@@ -278,20 +314,18 @@ struct ContentView: View {
             showNoBlobAlert = true
             return
         }
-        isConnecting = true
-        await positionProvider.startPositionStream(siteID: siteId, blob: blob)
-        isConnecting = false
+
+        await positionProvider.startPositionStream(siteID: siteId, blob: blob, forceTracelet:forceTracelet)
+
     }
 
-    func isConnected() -> Bool {
-        return positionProvider.connectionState == .CONNECTED
+    func isPositioning() -> Bool {
+        return positionProvider.connectionState == .POSITIONING
     }
-
-    func setWorldCoordinateReference(lat: Double, lon: Double, azi: Double) {
-        positionProvider.REF_AZI = azi
-        positionProvider.REF_LAT = lat
-        positionProvider.REF_LON = lon
-        showReferenceSheet = false
+    
+    
+    func isConnecting() -> Bool {
+        return positionProvider.connectionState == .CONNECTING
     }
 }
 
@@ -390,7 +424,7 @@ struct ConfigurationSheet: View {
                     }
 
                     Spacer()
-
+                    // Start Positioning Button
                     Button {
                         isPresented = false
                         onStart()
@@ -398,7 +432,7 @@ struct ConfigurationSheet: View {
                         HStack(spacing: 8) {
                             Image(systemName: "location.fill")
                                 .font(.system(size: 16, weight: .semibold))
-                            Text("Start Positioning")
+                            Text( "Start Positioning")
                                 .font(.headline)
                                 .fontWeight(.semibold)
                         }

@@ -100,7 +100,7 @@ private struct ExpandedContentView: View {
                     .tracking(1.1)
                     .foregroundStyle(.white.opacity(0.55))
                 Spacer()
-            
+                LiveDot()
             }
             .padding(.bottom, 8)
 
@@ -153,6 +153,9 @@ private struct CoordBlock: View {
 // MARK: - Dynamic Island — Compact
 
 private struct CompactLeadingView: View {
+    let x: Double
+    let y: Double
+
     var body: some View {
         HStack(spacing: 3) {
             
@@ -165,12 +168,20 @@ private struct CompactLeadingView: View {
 }
 
 private struct CompactTrailingView: View {
+    let x: Double
+    let y: Double
+
     var body: some View {
         HStack(spacing: 6) {
-            Image(systemName: "location.fill")
-                .resizable()
-                .scaledToFit()
-                .foregroundStyle(.orange)
+            
+            Text("X:\(String(format: "%.1f", x))")
+                .font(.system(size: 10, weight: .bold, design: .monospaced))
+                .foregroundStyle(WidgetStyle.accentColor)
+                .monospacedDigit()
+            Text("Y:\(String(format: "%.1f", y))")
+                .font(.system(size: 10, weight: .bold, design: .monospaced))
+                .foregroundStyle(WidgetStyle.accentSecondary)
+                .monospacedDigit()
 
         }
         .padding(.trailing, 4)
@@ -185,7 +196,29 @@ private struct MinimalView: View {
     }
 }
 
+// MARK: - Live Dot
 
+private struct LiveDot: View {
+    @State private var pulse = false
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .fill(WidgetStyle.accentColor.opacity(0.3))
+                .frame(width: 12, height: 12)
+                .scaleEffect(pulse ? 1.6 : 1.0)
+                .opacity(pulse ? 0 : 0.6)
+            Circle()
+                .fill(WidgetStyle.accentColor)
+                .frame(width: 6, height: 6)
+        }
+        .onAppear {
+            withAnimation(.easeOut(duration: 1.2).repeatForever(autoreverses: false)) {
+                pulse = true
+            }
+        }
+    }
+}
 
 // MARK: - Widget Entry Point
 
@@ -203,16 +236,17 @@ struct PinpointWidgetLiveActivity: Widget {
             let x = context.state.x
             let y = context.state.y
 
+
             return DynamicIsland {
 
                 DynamicIslandExpandedRegion(.center) {
                     ExpandedContentView(x: x, y: y)
                 }
             } compactLeading: {
-                CompactLeadingView()
+                CompactLeadingView(x: x, y: y)
 
             } compactTrailing: {
-                CompactTrailingView()
+                CompactTrailingView(x: x, y: y)
 
             } minimal: {
                 MinimalView()
