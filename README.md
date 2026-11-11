@@ -5,7 +5,7 @@
 The Pinpoint iOS SDK is a Swift package for [FiRa](https://www.firaconsortium.org) compliant Ultra-Wideband (UWB) positioning with [Pinpoint's](https://pinpoint.de) technology. It supports native iPhone UWB ranging and Bluetooth Low Energy positioning with a TRACElet.
 
 ## Version
-Latest SDK version: `15.0.5`
+Latest SDK version: `15.0.8`
 
 
 ## Use Cases
