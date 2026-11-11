@@ -10,15 +10,17 @@ import UniformTypeIdentifiers
 
 
 struct ContentView: View {
-    @ObservedObject var positionProvider = PositionProvider()
-    @State var showFilePicker = false
-    @State var showConfigSheet = false
-    @State var siteIdInput: String = ""
-    @State var selectedBlobData: Data? = nil
-    @State var selectedFileName: String? = nil
-    @State var showNoBlobAlert = false
-    @State var showLicenseErrorAlert = false
-    @State var forceTracelet: Bool = false
+    @StateObject private var positionProvider = PositionProvider()
+    @State private var showFilePicker = false
+    @State private var showConfigSheet = false
+    @State private var siteIdInput = ""
+    @State private var selectedBlobData: Data?
+    @State private var selectedFileName: String?
+    @State private var showNoBlobAlert = false
+    @State private var showLicenseErrorAlert = false
+    @State private var showUnsupportedUWBAlert = false
+    @State private var isDemoEnabled = true
+    @State private var forceTracelet = false
 
     private var hasLicenseError: Bool {
         positionProvider.initializationError != nil
@@ -178,16 +180,10 @@ struct ContentView: View {
                 // ── Buttons Section
                 VStack(spacing: 16) {
 
-                    VStack {
-                        Toggle("Force TRACElet", isOn: $forceTracelet)
-                            .font(.headline)
-
-                        Text("Use a TRACElet connection via BLE, even when native UWB support is available on the iPhone")
-                            .font(.caption)
-                    }
-                    .padding()
-                    .background(.gray.opacity(0.2))
-                    .cornerRadius(8)
+                    RangingModeCard(
+                        isUWBSupported: positionProvider.isUWBPositioningSupported,
+                        forceTracelet: $forceTracelet
+                    )
 
                     Button(action: {
                         if isPositioning() {
@@ -229,7 +225,7 @@ struct ContentView: View {
                             y: 4
                         )
                     }
-                    .disabled(isConnecting() || hasLicenseError)
+                    .disabled(isConnecting() || hasLicenseError || !isDemoEnabled)
                     .opacity(hasLicenseError ? 0.4 : 1)
 
                     if isPositioning() && forceTracelet {
@@ -269,6 +265,9 @@ struct ContentView: View {
         }
         .task {
             await positionProvider.setup()
+            if positionProvider.isUWBPositioningSupported == false && !hasLicenseError {
+                showUnsupportedUWBAlert = true
+            }
         }
         .onChange(of: positionProvider.initializationError) { _, error in
             if error != nil {
@@ -288,6 +287,16 @@ struct ContentView: View {
             }
         }
 
+        .alert("UWB Ranging Unavailable", isPresented: $showUnsupportedUWBAlert) {
+            Button("Continue with TRACElet") {
+                forceTracelet = true
+            }
+            Button("Stop Demo", role: .cancel) {
+                isDemoEnabled = false
+            }
+        } message: {
+            Text("Native UWB ranging requires an iPhone 11 or newer with UWB hardware (iPhone SE and iPhone 16e excluded). You can continue using a TRACElet over Bluetooth Low Energy, or stop here.")
+        }
         .alert("Blob Required", isPresented: $showNoBlobAlert) {
             Button("Select File") { showFilePicker = true }
             Button("Cancel", role: .cancel) { }
@@ -326,6 +335,49 @@ struct ContentView: View {
     
     func isConnecting() -> Bool {
         return positionProvider.connectionState == .CONNECTING
+    }
+}
+
+
+// MARK: - Ranging Mode
+
+private struct RangingModeCard: View {
+    let isUWBSupported: Bool?
+    @Binding var forceTracelet: Bool
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+
+            if let isUWBSupported {
+                if isUWBSupported {
+                    Toggle(isOn: $forceTracelet) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(forceTracelet ? "BLE TRACElet" : "Native UWB")
+                                .font(.subheadline.weight(.semibold))
+                            Text(forceTracelet
+                                 ? "Positioning uses a TRACElet connected over Bluetooth Low Energy."
+                                 : "Positioning uses the iPhone’s built-in UWB hardware.")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                } else {
+                    Text("Native UWB ranging requires an iPhone 11 or newer with UWB hardware (iPhone SE and iPhone 16e excluded). Connect a TRACElet to continue over Bluetooth Low Energy.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            } else {
+                HStack(spacing: 10) {
+                    ProgressView()
+                    Text("Checking ranging capabilities…")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
+        .background(.gray.opacity(0.2), in: RoundedRectangle(cornerRadius: 12))
     }
 }
 

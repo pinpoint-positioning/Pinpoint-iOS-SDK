@@ -17,7 +17,7 @@ The **PinpointSampleApp** demonstrates:
 
 ### 1. Launch the App
 When the app starts, you’ll see two main sections:
-- **Local Position (X, Y, Z, Accuracy)**
+- **Local Position (X, Y, Accuracy)**
 - **WGS84 Coordinates (Latitude, Longitude)**
 
 Each value updates when your TRACElet is connected and streaming data.

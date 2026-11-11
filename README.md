@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The Pinpoint iOS SDK is a Swift package for [FiRa](https://www.firaconsortium.org) compliant Ultra-Wideband (UWB) positioning with [Pinpoint's](https://pinpoint.de) technology.
+The Pinpoint iOS SDK is a Swift package for [FiRa](https://www.firaconsortium.org) compliant Ultra-Wideband (UWB) positioning with [Pinpoint's](https://pinpoint.de) technology. It supports native iPhone UWB ranging and Bluetooth Low Energy positioning with a TRACElet.
 
 ## Version
 Latest SDK version: `15.0.5`
@@ -50,6 +50,8 @@ The SDK requires compatible **Pinpoint Hardware** for accurate indoor positionin
   SATlets are suitable for production environments or larger deployments requiring reliable and precise indoor localization.
 
 To ensure optimal performance, confirm that your hardware is correctly installed and configured before running the SDK.
+
+Native UWB ranging requires an **iPhone 11 or newer with UWB hardware** (iPhone SE and iPhone 16e excluded). On unsupported devices, the SDK can continue with a **TRACElet over Bluetooth Low Energy**.
 
 
 ## Installation
@@ -116,17 +118,18 @@ The usage examples below can be found in `PositionProvider.swift` inside the dem
 First, import the module at the top of your Swift file:
 
 ```swift
-import PinpointSDK
+import CoreBluetooth
+import PinpointSDKFramework
 ```
 
-The `PinpointApi` class provides various functions to interact with nearby tracelets using Bluetooth. 
+The `PinpointAPI` class provides native UWB ranging and BLE TRACElet positioning. 
 
 Below are the main functions available for public use:
 
 ### Initialize the SDK
 
 Initialize the `API` class with your API-Key. 
-The initialization requires to run ansynchronously.
+Initialization runs asynchronously.
 
 It's recommended to initialize the `API` in a central place in your app and make it observable for other parts of your application.
 
@@ -145,8 +148,14 @@ Make your class conform to `PinpointStateDelegate,` and `PinpointPositionDelegat
 class PositionProvider: ObservableObject,PinpointStateDelegate, PinpointPositionDelegate {
 
     private func initializeSDK() async {
+        let sdk = PinpointAPI(apiKey: "YOUR-API-KEY")
+
+        if !sdk.isUwbPositioningSupported() {
+            print("Native UWB is unavailable. Use TRACElet mode instead.")
+        }
+
         do {
-            let sdk = try await PinpointAPI(apiKey: "YOUR-API-KEY")
+            try await sdk.initialize()
             self.api = sdk
             self.api?.positionDelegate = self   // assign self as delegate
             self.api?.stateDelegate = self      // assign self as delegate
@@ -167,7 +176,7 @@ The *LocalPosition* data model provides the following positioning values withing
     var x:Double
     var y:Double
     var z:Double
-    var acc: Double
+    var accuracy: Double
     var lat:Double
     var lon:Double
     var alt:Double
@@ -181,7 +190,7 @@ The *LocalPosition* data model provides the following positioning values withing
     }
     
 // Delegate methods for PinpointStateDelegate
-    func pinpointAPI(_ api: PinpointAPI, didChangeBLEState state: BLEState) {
+    func pinpointAPI(_ api: PinpointAPI, didChangeBLEState state: CBManagerState) {
         print(state)
     }
     
@@ -227,10 +236,11 @@ Altenatively, you can listen to changes within the published variable `api.local
 
 ### Starting position stream
 
-The connection, setup and position updates can be initiated with as single function call of `startPositionStream(siteID:UInt32, blob:Data)`.
+The connection, setup and position updates can be initiated with a single call to `startPositionStream(siteId:forceTracelet:blob:)`. Set `forceTracelet` to `true` when native UWB is unavailable or when you explicitly want to use a TRACElet over Bluetooth Low Energy.
 
 - `siteID`: The Site ID from your site (shown in EasyPlan)
 - `blob`: A `.bin` file that can be generated from EasyPlan
+- `forceTracelet`: `true` for BLE TRACElet positioning; `false` to use native UWB when supported
 
 The blob needs to be converted to `Data`:
 
@@ -241,10 +251,19 @@ In our [Sample App]("https://github.com/pinpoint-positioning/Pinpoint-iOS-SDK/tr
 When the call was successful, you receveive continuous position updates via `didUpdatePosition` delegate method, you implemented before.
 
 ```swift
-    // Start the postion stream
-    func startPositionStream(siteID:UInt32, blob:Data) async  {
+    // Start the position stream
+    func startPositionStream(siteID: UInt32, blob: Data, forceTracelet: Bool) async {
         guard let api = self.api else { return }
-            await api.startPositionStream(siteId: siteID, blob: blob)
+
+        do {
+            try await api.startPositionStream(
+                siteId: siteID,
+                forceTracelet: forceTracelet,
+                blob: blob
+            )
+        } catch {
+            print("Failed to start positioning:", error)
+        }
     }
 ```
 

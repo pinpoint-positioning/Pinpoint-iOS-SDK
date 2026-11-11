@@ -13,10 +13,12 @@ import CoreLocation
 
 class PositionProvider: ObservableObject, PinpointStateDelegate, PinpointPositionDelegate {
 
+
     // Published Variables
     @Published private(set) var api: PinpointAPI?
     @Published var localPosition: LocalPosition?
     @Published var connectionState: ConnectionState = .DISCONNECTED
+    @Published private(set) var isUWBPositioningSupported: Bool?
     @Published var initializationError: String? = nil
     
     // Private vars
@@ -37,8 +39,11 @@ class PositionProvider: ObservableObject, PinpointStateDelegate, PinpointPositio
 
     @MainActor
     private func initializeSDK() async {
+        let sdk = PinpointAPI(apiKey: "YOUR_API_KEY")
+        isUWBPositioningSupported = sdk.isUwbPositioningSupported()
+
         do {
-            let sdk = try await PinpointAPI(apiKey: "YOUR-API-KEY")
+            try await sdk.initialize()
             self.api = sdk
             self.api?.positionDelegate = self   // assign self as delegate
             self.api?.stateDelegate = self   // assign self as delegate
@@ -48,7 +53,9 @@ class PositionProvider: ObservableObject, PinpointStateDelegate, PinpointPositio
             self.initializationError = "License invalid or missing. Please check your API key."
             print("SDK initialization failed:", error)
         }
+        
     }
+    
     
     
     // Start the postion stream
@@ -62,7 +69,12 @@ class PositionProvider: ObservableObject, PinpointStateDelegate, PinpointPositio
             return
         }
         guard let api = self.api else { return }
-        await api.startPositionStream(siteId: siteID, forceTracelet:forceTracelet, blob: blob)
+        do {
+            try await api.startPositionStream(siteId: siteID, forceTracelet:forceTracelet, blob: blob)
+        } catch {
+            print(error.localizedDescription)
+        }
+       
         widgets.startLiveActivity(position: localPosition)
         
 
@@ -106,9 +118,10 @@ class PositionProvider: ObservableObject, PinpointStateDelegate, PinpointPositio
         self.handleNewPosition(position)
     }
     
-    func pinpointAPI(_ api: PinpointAPI, didChangeBLEState state: BLEState) {
+    func pinpointAPI(_ api: PinpointSDKFramework.PinpointAPI, didChangeBLEState state: CBManagerState) {
         print(state)
     }
+    
     
     
     func pinpointAPI(_ api: PinpointAPI, didChangeConnectionState state: ConnectionState) {

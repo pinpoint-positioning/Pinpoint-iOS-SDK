@@ -1,4 +1,4 @@
 struct BuildInfo {
-    static let tag = "12.2.4"
-    static let commit = "659e42c"
+    static let tag = "15.0.5"
+    static let commit = "fd245ca"
 }
